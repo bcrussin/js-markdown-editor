@@ -35,7 +35,7 @@ function addNoteCard(title, note) {
 	card.className = "note-card";
 	card.id = "note-" + id;
 	card.addEventListener("click", () => {
-		window.location.href = "./editor.html?name=" + title;
+		window.location.href = "editor.html?name=" + title;
 	});
 
 	let cardContent = document.createElement("div");
