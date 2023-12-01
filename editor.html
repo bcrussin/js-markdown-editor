@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Markdown Editor</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" href="css/styles.css" />
+	<link rel="stylesheet" href="css/editor.css" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
+</head>
+
+<body>
+	<nav>
+		<div id="nav-left" class="nav-link">
+			<a href="/index.html">All Notes</a>
+		</div>
+		<!--<h1>Markdown Editor</h1>-->
+		<input id="title" placeholder="Untitled Note" type="text" onkeyup="keyupTitle()" />
+		<div id="nav-right" class="nav-link">
+			<a href="/stats.html">Statistics</a>
+		</div>
+	</nav>
+
+	<main>
+		<div id="editor-container">
+			<div id="editor-menu" class="menu-bar">
+				<button id="bold" onclick="insertStyle('bold')">B</button>
+				<button id="italic" onclick="insertStyle('italic')">I</button>
+				<button id="monospace" onclick="insertStyle('monospace')">M</button>
+			</div>
+			<textarea id="editor" onkeyup="updateMarkdown()" placeholder="Markdown goes here..."> </textarea>
+		</div>
+		<div id="preview-container">
+			<div id="preview-menu" class="menu-bar"></div>
+			<div id="preview"></div>
+		</div>
+	</main>
+
+	<!--<div id="console">
+		<span id="console-text"></span>
+	</div>-->
+
+	<script src="script/showdown.js"></script>
+	<script src="script/editor.js"></script>
+</body>
+
+</html>

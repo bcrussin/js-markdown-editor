@@ -1,0 +1,86 @@
+#controls-container {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+}
+
+#controls-container>* {
+	margin: 0 4px;
+}
+
+#note-cards-container {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: start;
+	margin: 16px 32px;
+}
+
+#notes-placeholder {
+	opacity: 0.6;
+	margin: auto;
+}
+
+.note-card {
+	position: relative;
+	background-color: #3a3a3c;
+	border-radius: 4px;
+	margin: 8px 16px;
+	width: clamp(256px, 24vw, 324px);
+	aspect-ratio: 0.9;
+	padding: 12px;
+	cursor: pointer;
+	box-sizing: border-box;
+}
+
+.note-card-content {
+	height: 100%;
+	padding-bottom: 24px;
+	box-sizing: border-box;
+	overflow: hidden;
+	opacity: 0.6;
+	transition: opacity 0.2s;
+}
+
+.note-card:hover .note-card-content {
+	opacity: 1;
+}
+
+.note-card .delete-note {
+	cursor: pointer;
+	border-radius: 4px;
+	background-color: #9f2323;
+	position: absolute;
+	top: -4px;
+	right: -4px;
+	font-family: 'Courier New', Courier, monospace;
+	padding: 0;
+	width: 24px;
+	font-size: 14pt;
+	aspect-ratio: 1;
+	font-weight: bold;
+	color: #c49b9b;
+	opacity: 0;
+	outline: 2px solid transparent;
+	transition: opacity 0.2s, outline-color 0.2s;
+}
+
+.note-card:hover .delete-note {
+	opacity: 1;
+}
+
+.delete-note:hover {
+	opacity: 1 !important;
+	outline-color: #ad4e4e;
+}
+
+.note-card h2 {
+	margin: 0 0 16px 0;
+	text-align: left;
+}
+
+.note-preview {
+	height: 100%;
+	white-space: pre-line;
+}

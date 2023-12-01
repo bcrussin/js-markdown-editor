@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Markdown Editor</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" href="css/styles.css" />
+	<link rel="stylesheet" href="css/notes.css" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
+</head>
+
+<body>
+	<nav>
+		<div id="nav-left" class="nav-link">
+			<a href="/notes.html" class="selected">All Notes</a>
+		</div>
+		<h1>Markdown Editor</h1>
+		<div id="nav-right" class="nav-link">
+			<a href="/stats.html">Statistics</a>
+		</div>
+	</nav>
+
+	<main>
+		<div id="controls-container">
+			<form>
+				<input type="search" placeholder="Search notes:" />
+			</form>
+			<a href="/editor.html"><button id="new-note">New Note</button></a>
+		</div>
+		<div id="note-cards-container">
+			<p id="notes-placeholder">No notes found - click "New Note" to create one</p>
+		</div>
+	</main>
+
+	<script src="script/showdown.js"></script>
+	<script src="script/notes.js"></script>
+</body>
+
+</html>
