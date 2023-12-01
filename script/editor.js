@@ -121,8 +121,6 @@ function updateMarkdown() {
 			updateNote("markdown", code ?? "");
 			renderPreview();
 			editorTimer = null;
-			console.log("Timer at: ");
-			console.log(editorTimer);
 		}, RENDER_DELAY);
 	}
 }
@@ -207,6 +205,7 @@ function insertStyle(style) {
 	}
 
 	renderPreview();
+	saveNotes();
 }
 
 function showConsoleMessage(message) {
