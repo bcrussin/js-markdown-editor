@@ -115,7 +115,7 @@ textarea {
 }
 
 #guide-dialog[open] {
-	width: min(85vh, 800px);
+	width: min(85vw, 600px);
 	height: 85vh;
 	padding: 0;
 	display: flex;
