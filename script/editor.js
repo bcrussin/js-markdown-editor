@@ -121,15 +121,17 @@ function updateTitle() {
 	updateNote("title", title ?? "");
 }
 
-function insertText(text, updateCursor = true) {
-	let oldPos = editor.selectionEnd;
+function insertText(text, updateCursorParam) {
+	let oldStart = editor.selectionStart;
+	let oldEnd = editor.selectionEnd;
 	let before = editor.value.slice(0, editor.selectionStart);
 	let after = editor.value.slice(editor.selectionEnd, editor.value.length);
 
 	editor.value = before + text + after;
 
-	editor.selectionEnd = oldPos;
-	if (updateCursor) moveCursor(text.length);
+	editor.selectionStart = oldStart;
+	editor.selectionEnd = oldEnd;
+	if (!!updateCursorParam) moveCursor(text.length, updateCursorParam);
 }
 
 function setText(text) {
@@ -193,13 +195,13 @@ function keydownEditor(e) {
 	if (controlPressed) {
 		switch (e.key) {
 			case "b":
-				insertStyle("bold");
+				applyStyle("bold");
 				break;
 			case "i":
-				insertStyle("italic");
+				applyStyle("italic");
 				break;
 			case "m":
-				insertStyle("monospace");
+				applyStyle("monospace");
 				break;
 		}
 
@@ -369,7 +371,7 @@ function getCurrentLine() {
 	return text.slice(startPos, endPos);
 }
 
-function insertStyle(style) {
+function applyStyle(style) {
 	let prefix;
 	let suffix;
 
@@ -404,21 +406,26 @@ function insertStyle(style) {
 		// ___ Selected text is surrounded by prefix and suffix ___
 
 		// Remove previx and suffix
+		let selectionLength = selectionEnd - selectionStart;
+
 		before = editor.value.slice(0, selectionStart - prefix.length);
 		after = editor.value.slice(selectionEnd + suffix.length, editor.value.length);
 		middle = editor.value.slice(selectionStart, selectionEnd);
 
 		setText(before + middle + after);
-		moveCursor(-suffix.length);
+		editor.selectionStart -= selectionLength + prefix.length;
+		editor.selectionEnd -= suffix.length;
 	} else if (startsWithPrefix && endsWithSuffix) {
 		// ___ Selected text starts with prefix and ends with suffix ___
+		let selectionLength = selectionEnd - selectionStart;
 
 		before = editor.value.slice(0, selectionStart);
 		after = editor.value.slice(selectionEnd, editor.value.length);
 		middle = editor.value.slice(selectionStart + prefix.length, selectionEnd - suffix.length);
 
 		setText(before + middle + after);
-		moveCursor(-prefix.length - suffix.length);
+		editor.selectionStart -= selectionLength;
+		editor.selectionEnd -= suffix.length * 2;
 	} else {
 		if (selectionStart == selectionEnd) {
 			// ___ No text selected, add prefix and suffix ___
@@ -429,7 +436,7 @@ function insertStyle(style) {
 			// ___ Wrap selected text with prefix and suffix ___
 
 			insertText(prefix + editor.value.slice(selectionStart, selectionEnd) + suffix, false);
-			moveCursor(prefix.length + suffix.length);
+			moveCursor(prefix.length, true);
 		}
 	}
 

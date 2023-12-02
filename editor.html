@@ -28,9 +28,9 @@
 	<main>
 		<div id="editor-container">
 			<div id="editor-menu" class="menu-bar">
-				<button id="bold" onclick="insertStyle('bold')">B</button>
-				<button id="italic" onclick="insertStyle('italic')">I</button>
-				<button id="monospace" onclick="insertStyle('monospace')">M</button>
+				<button id="bold" onclick="applyStyle('bold')">B</button>
+				<button id="italic" onclick="applyStyle('italic')">I</button>
+				<button id="monospace" onclick="applyStyle('monospace')">M</button>
 				<button id="guide" onclick="openGuideDialog()">?</button>
 			</div>
 			<textarea id="editor" onkeyup="keyupEditor(event)" onkeydown="keydownEditor(event)" placeholder="Markdown goes here..."> </textarea>
