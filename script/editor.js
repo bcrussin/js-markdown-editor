@@ -121,7 +121,7 @@ function updateTitle() {
 	updateNote("title", title ?? "");
 }
 
-function insertText(text, updateCursorParam) {
+function insertText(text, updateCursorParam = true) {
 	let oldStart = editor.selectionStart;
 	let oldEnd = editor.selectionEnd;
 	let before = editor.value.slice(0, editor.selectionStart);
@@ -243,11 +243,10 @@ function handleListEnter(e) {
 	// If shift key is pressed or the current line is not a list, don't do anything
 	// Otherwise, there are more behaviors to handle
 	if (!e.shiftKey && !!autoAddedText) {
-		let lastSymbol = getCurrentListSymbol();
-		let afterSymbol = line.slice(line.indexOf(lastSymbol) + autoAddedText.length, line.length); // Rest of the line after the list symbol
+		let afterSymbol = line.slice(autoAddedText.length, line.length); // Rest of the line after the list symbol
 
 		// If "enter" is pressed on an empty list item, that's where the fun begins
-		if (afterSymbol.trim().length === 0) {
+		if (afterSymbol.trim().length === 0 && editor.selectionStart === editor.selectionEnd) {
 			if (currLineIndentation() === 0) {
 				// If indentation level is 0, exit the list
 				let before = editor.value.slice(0, editor.selectionStart - cursorPosInLine());
