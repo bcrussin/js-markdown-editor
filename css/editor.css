@@ -73,6 +73,9 @@ textarea {
 	background-color: transparent;
 	border: 1px solid #ffffff40;
 	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 #console {
@@ -109,6 +112,55 @@ textarea {
 
 #monospace {
 	color: #ffffffa0;
+}
+
+#guide-dialog[open] {
+	width: min(85vh, 800px);
+	height: 85vh;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: stretch;
+	margin: auto;
+}
+
+#guide-header {
+	background-color: #212121;
+	color: #dddddd;
+	flex: 0 0 auto;
+	padding: 0 16px;
+	display: flex;
+	align-items: center;
+	position: relative;
+}
+
+#guide-header #close-button {
+	font-family: 'Courier New', Courier, monospace;
+	font-size: 20pt;
+	position: absolute;
+	top: 8px;
+	right: 12px;
+	background-color: transparent;
+	color: #dddddd;
+	cursor: pointer;
+}
+
+#close-button::-moz-focus-inner {
+	border: 0;
+}
+
+#guide-content {
+	flex: 1 0 auto;
+	width: 100%;
+}
+
+#dialog-backdrop.open {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #00000080;
 }
 
 @media only screen and (orientation:portrait) {

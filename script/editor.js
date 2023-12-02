@@ -6,6 +6,8 @@ const CONSOLE_DELAY = 3000;
 const title = document.getElementById("title");
 const editor = document.getElementById("editor");
 const preview = document.getElementById("preview");
+const dialog = document.getElementById("guide-dialog");
+const dialogBackdrop = document.getElementById("dialog-backdrop");
 
 let noteName;
 let isNew = true;
@@ -78,10 +80,12 @@ function renderPreview() {
 
 function updateNote(key, value) {
 	if (key === "title") {
-		notes[value] = notes[noteName];
-		delete notes[noteName];
-		noteName = value;
-		redirectURL();
+		if (value !== noteName) {
+			notes[value] = notes[noteName];
+			delete notes[noteName];
+			noteName = value;
+			redirectURL();
+		}
 	} else if (key === "body") {
 		notes[noteName][key] = value ?? "";
 	} else {
@@ -206,6 +210,45 @@ function insertStyle(style) {
 
 	renderPreview();
 	saveNotes();
+}
+
+function exportMD() {
+	let fileName = noteName + ".md";
+	let fileBlob = new Blob([editor.value], { type: "text/plain" });
+
+	window.URL = window.URL || window.webkitURL;
+
+	let element = document.createElement("a");
+	element.href = window.URL.createObjectURL(fileBlob);
+	element.setAttribute("download", fileName);
+	element.click();
+	document.removeChild(element);
+}
+
+function clickGuideDialog(e) {
+	if (e.target.tagName !== "DIALOG") return;
+
+	const rect = e.target.getBoundingClientRect();
+
+	let dialogClicked =
+		e.clientX >= rect.left &&
+		e.clientX <= rect.left + rect.width &&
+		e.clientY >= rect.top &&
+		e.clientY <= rect.top + rect.height;
+
+	if (!dialogClicked) {
+		closeGuideDialog();
+	}
+}
+
+function openGuideDialog() {
+	dialog.showModal();
+	dialogBackdrop.classList.add("open");
+}
+
+function closeGuideDialog() {
+	dialog.close();
+	dialogBackdrop.classList.remove("open");
 }
 
 function showConsoleMessage(message) {

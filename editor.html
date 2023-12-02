@@ -7,7 +7,9 @@
 
 	<link rel="stylesheet" href="css/styles.css" />
 	<link rel="stylesheet" href="css/editor.css" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/md-to-pdf@5.2.4/dist/index.min.js"></script>
 </head>
 
 <body>
@@ -28,14 +30,28 @@
 				<button id="bold" onclick="insertStyle('bold')">B</button>
 				<button id="italic" onclick="insertStyle('italic')">I</button>
 				<button id="monospace" onclick="insertStyle('monospace')">M</button>
+				<button id="guide" onclick="openGuideDialog()">?</button>
 			</div>
 			<textarea id="editor" onkeyup="updateMarkdown()" placeholder="Markdown goes here..."> </textarea>
 		</div>
 		<div id="preview-container">
-			<div id="preview-menu" class="menu-bar"></div>
+			<div id="preview-menu" class="menu-bar">
+				<button id="exportPDF" onclick="exportMD()"><i class="bi bi-file-earmark-arrow-down"></i></button>
+			</div>
 			<div id="preview"></div>
 		</div>
 	</main>
+
+	<div id="dialog-backdrop"></div>
+	<dialog id="guide-dialog" onclick="clickGuideDialog(event)">
+		<div id="guide-header">
+			<h1>Markdown Guide</h1>
+			<button id="close-button" onclick="closeGuideDialog()">&#x2715;</button>
+		</div>
+		<object data="guide.html" id="guide-content" type="text/html">
+
+		</object>
+	</dialog>
 
 	<!--<div id="console">
 		<span id="console-text"></span>
