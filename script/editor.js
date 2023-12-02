@@ -164,7 +164,7 @@ function startOfLinePos() {
 	return startPos;
 }
 
-function currLineIsList(increaseNumbers = false) {
+function getCurrentListSymbol(increaseNumbers = false) {
 	let line = getCurrentLine().trimStart();
 
 	let checkOrderedList = line.match("^[0-9]+\\.+\\s");
@@ -182,49 +182,16 @@ function currLineIsList(increaseNumbers = false) {
 	}
 }
 
-function currLineIndent() {
+function currLineIndentation() {
 	let line = getCurrentLine();
 	return line.length - line.trimStart().length;
 }
 
 function keydownEditor(e) {
 	if (e.key === "Enter") {
-		let line = getCurrentLine();
-		let fromEnd = editor.value.length - editor.selectionEnd;
-
-		let listSymbol = currLineIsList(true);
-		if (!!listSymbol) {
-			let indentation = " ".repeat(currLineIndent());
-			autoAddedText = indentation + listSymbol;
-		}
-
-		if (!e.shiftKey && !!autoAddedText) {
-			let lastSymbol = currLineIsList();
-			let afterSymbol = line.slice(line.indexOf(lastSymbol) + autoAddedText.length, line.length);
-
-			if (afterSymbol.trim().length === 0) {
-				if (currLineIndent() === 0) {
-					let before = editor.value.slice(0, editor.selectionStart - cursorPosInLine());
-					let after = editor.value.slice(editor.selectionEnd, editor.value.length);
-
-					setText(before + after);
-					moveCursor(Math.max(-fromEnd, -line.length));
-				} else {
-					let before = editor.value.slice(0, startOfLinePos());
-					let after = editor.value.slice(startOfLinePos() + TAB_SPACING, editor.value.length);
-
-					setText(before + after);
-					moveCursor(Math.max(-fromEnd, -TAB_SPACING));
-					//moveCursor(Math.max(-fromEnd, -line.length));
-				}
-
-				e.preventDefault();
-				preventKeyup = true;
-				autoAddedText = null;
-			}
-		}
+		handleListEnter(e);
 	} else if (e.key === "Tab") {
-		if (currLineIsList()) {
+		if (getCurrentListSymbol()) {
 			let oldPos = cursorPosInLine();
 			moveCursor(-oldPos);
 			insertText(" ".repeat(TAB_SPACING));
@@ -234,6 +201,52 @@ function keydownEditor(e) {
 		}
 
 		e.preventDefault();
+	}
+}
+
+function handleListEnter(e) {
+	// There are many possible scenarios when pressing "enter" while inside a list
+	let line = getCurrentLine();
+	let fromEnd = editor.value.length - editor.selectionEnd;
+
+	// Check if current line is a list
+	// If so, get that list's symbol (a dash, number, etc.)
+	let listSymbol = getCurrentListSymbol(true);
+	if (!!listSymbol) {
+		// Keep the indentation of the current list
+		let indentation = " ".repeat(currLineIndentation());
+		autoAddedText = indentation + listSymbol;
+	}
+
+	// If shift key is pressed or the current line is not a list, don't do anything
+	// Otherwise, there are more behaviors to handle
+	if (!e.shiftKey && !!autoAddedText) {
+		let lastSymbol = getCurrentListSymbol();
+		let afterSymbol = line.slice(line.indexOf(lastSymbol) + autoAddedText.length, line.length); // Rest of the line after the list symbol
+
+		if (afterSymbol.trim().length === 0) {
+			// If "enter" is pressed on an empty list item, that's where the fun begins
+
+			if (currLineIndentation() === 0) {
+				// If indentation level is 0, exit the list
+				let before = editor.value.slice(0, editor.selectionStart - cursorPosInLine());
+				let after = editor.value.slice(editor.selectionEnd, editor.value.length);
+
+				setText(before + after);
+				moveCursor(Math.max(-fromEnd, -line.length));
+			} else {
+				// Otherwise, decrease indentation by 1
+				let before = editor.value.slice(0, startOfLinePos());
+				let after = editor.value.slice(startOfLinePos() + TAB_SPACING, editor.value.length);
+
+				setText(before + after);
+				moveCursor(Math.max(-fromEnd, -TAB_SPACING));
+			}
+
+			e.preventDefault();
+			preventKeyup = true;
+			autoAddedText = null;
+		}
 	}
 }
 
