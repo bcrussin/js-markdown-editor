@@ -188,6 +188,26 @@ function currLineIndentation() {
 }
 
 function keydownEditor(e) {
+	// Handle control or command shortcuts depending on OS
+	let controlPressed = platform.os.family === "OS X" ? e.metaKey : e.ctrlKey;
+	if (controlPressed) {
+		switch (e.key) {
+			case "b":
+				insertStyle("bold");
+				break;
+			case "i":
+				insertStyle("italic");
+				break;
+			case "m":
+				insertStyle("monospace");
+				break;
+		}
+
+		e.preventDefault();
+		e.stopPropagation();
+		return;
+	}
+
 	if (e.key === "Enter") {
 		handleListEnter(e);
 	} else if (e.key === "Tab") {
@@ -224,9 +244,8 @@ function handleListEnter(e) {
 		let lastSymbol = getCurrentListSymbol();
 		let afterSymbol = line.slice(line.indexOf(lastSymbol) + autoAddedText.length, line.length); // Rest of the line after the list symbol
 
+		// If "enter" is pressed on an empty list item, that's where the fun begins
 		if (afterSymbol.trim().length === 0) {
-			// If "enter" is pressed on an empty list item, that's where the fun begins
-
 			if (currLineIndentation() === 0) {
 				// If indentation level is 0, exit the list
 				let before = editor.value.slice(0, editor.selectionStart - cursorPosInLine());
@@ -243,6 +262,7 @@ function handleListEnter(e) {
 				moveCursor(Math.max(-fromEnd, -TAB_SPACING));
 			}
 
+			// If exiting the list or reducing the indentation, prevent actual keypress from being handled
 			e.preventDefault();
 			preventKeyup = true;
 			autoAddedText = null;
@@ -251,14 +271,14 @@ function handleListEnter(e) {
 }
 
 function keyupEditor(e) {
+	// Skip handling this keypress if desired
 	if (preventKeyup) {
 		e.preventDefault();
 	}
 	preventKeyup = false;
 
+	// Used when continuing lists, etc.
 	if (!!autoAddedText) {
-		let oldPos = editor.selectionEnd;
-
 		insertText(autoAddedText);
 	}
 	autoAddedText = null;
@@ -266,6 +286,7 @@ function keyupEditor(e) {
 	setEditorTimer();
 }
 
+// Save notes on an interval while editing
 function setEditorTimer() {
 	if (editorTimer == null) {
 		editorTimer = setTimeout(() => {
