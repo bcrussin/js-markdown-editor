@@ -78,9 +78,15 @@
 .note-card h2 {
 	margin: 0 0 16px 0;
 	text-align: left;
+	white-space: nowrap;
+	max-width: 100%;
+	text-overflow: ellipsis;
+	overflow-x: hidden;
 }
 
 .note-preview {
 	height: 100%;
-	white-space: pre-line;
+	opacity: 0.6;
+	transform: scale(0.8);
+	transform-origin: top left;
 }

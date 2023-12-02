@@ -43,7 +43,7 @@ function addNoteCard(title, note) {
 
 	let deleteButton = document.createElement("button");
 	deleteButton.className = "delete-note";
-	deleteButton.innerHTML = "X";
+	deleteButton.innerHTML = "&#x2715;";
 	deleteButton.addEventListener("click", (e) => {
 		e.stopPropagation();
 		deleteNote(title, id);

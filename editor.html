@@ -32,7 +32,7 @@
 				<button id="monospace" onclick="insertStyle('monospace')">M</button>
 				<button id="guide" onclick="openGuideDialog()">?</button>
 			</div>
-			<textarea id="editor" onkeyup="updateMarkdown()" placeholder="Markdown goes here..."> </textarea>
+			<textarea id="editor" onkeyup="keyupEditor(event)" onkeydown="keydownEditor(event)" placeholder="Markdown goes here..."> </textarea>
 		</div>
 		<div id="preview-container">
 			<div id="preview-menu" class="menu-bar">
