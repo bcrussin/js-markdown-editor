@@ -164,12 +164,14 @@ function startOfLinePos() {
 	return startPos;
 }
 
-function currLineIsList() {
-	let line = getCurrentLine();
+function currLineIsList(increaseNumbers = false) {
+	let line = getCurrentLine().trimStart();
+
 	let checkOrderedList = line.match("^[0-9]+\\.+\\s");
 	if (!!checkOrderedList) {
 		checkOrderedList = checkOrderedList[0];
-		let num = parseInt(checkOrderedList.replace(".", "")) + 1;
+		let num = parseInt(checkOrderedList.replace(".", ""));
+		if (increaseNumbers) num++;
 		return num + ". ";
 	} else {
 		for (let symbol of LIST_SYMBOLS) {
@@ -180,23 +182,41 @@ function currLineIsList() {
 	}
 }
 
+function currLineIndent() {
+	let line = getCurrentLine();
+	return line.length - line.trimStart().length;
+}
+
 function keydownEditor(e) {
 	if (e.key === "Enter") {
 		let line = getCurrentLine();
 		let fromEnd = editor.value.length - editor.selectionEnd;
 
-		let listSymbol = currLineIsList();
-		if (!!listSymbol) autoAddedText = listSymbol;
+		let listSymbol = currLineIsList(true);
+		if (!!listSymbol) {
+			let indentation = " ".repeat(currLineIndent());
+			autoAddedText = indentation + listSymbol;
+		}
 
 		if (!e.shiftKey && !!autoAddedText) {
-			let afterSymbol = line.slice(autoAddedText.length, line.length);
+			let lastSymbol = currLineIsList();
+			let afterSymbol = line.slice(line.indexOf(lastSymbol) + autoAddedText.length, line.length);
 
 			if (afterSymbol.trim().length === 0) {
-				let before = editor.value.slice(0, editor.selectionStart - cursorPosInLine());
-				let after = editor.value.slice(editor.selectionEnd, editor.value.length);
+				if (currLineIndent() === 0) {
+					let before = editor.value.slice(0, editor.selectionStart - cursorPosInLine());
+					let after = editor.value.slice(editor.selectionEnd, editor.value.length);
 
-				setText(before + after);
-				moveCursor(Math.max(-fromEnd, -line.length));
+					setText(before + after);
+					moveCursor(Math.max(-fromEnd, -line.length));
+				} else {
+					let before = editor.value.slice(0, startOfLinePos());
+					let after = editor.value.slice(startOfLinePos() + TAB_SPACING, editor.value.length);
+
+					setText(before + after);
+					moveCursor(Math.max(-fromEnd, -TAB_SPACING));
+					//moveCursor(Math.max(-fromEnd, -line.length));
+				}
 
 				e.preventDefault();
 				preventKeyup = true;
