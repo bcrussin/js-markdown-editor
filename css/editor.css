@@ -68,7 +68,7 @@ textarea {
 	font-family: 'Courier New', Courier, monospace;
 	color: white;
 	aspect-ratio: 1;
-	margin-right: 2px;
+	margin: 0 1px;
 	font-size: 14pt;
 	background-color: transparent;
 	border: 1px solid #ffffff40;
@@ -76,6 +76,19 @@ textarea {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+
+.menu-bar button:first-child {
+	margin-left: 0;
+}
+
+.menu-bar .spacer {
+	margin: 2px 8px;
+	border: 1px solid #ffffff20;
+}
+
+.menu-bar .fill-space {
+	flex: 1 0;
 }
 
 #console {
@@ -110,8 +123,15 @@ textarea {
 	font-style: italic;
 }
 
-#monospace {
+#code {
 	color: #ffffffa0;
+}
+
+#h1,
+#h2,
+#h3 {
+	font-size: 10pt;
+	font-family: monospace;
 }
 
 #guide-dialog[open] {

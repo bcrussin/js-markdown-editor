@@ -1,15 +1,49 @@
 body {
     height: 100%;
     border: 2px solid #ffffff20;
+    overflow-y: scroll;
 }
 
 #guide-content {
     background-color: #181818;
     padding: 4px 16px;
+    padding-bottom: 16px;
+}
+
+.syntax {
+    margin-left: 16px;
 }
 
 .section-content {
-    margin-left: 32px;
+    margin-left: 16px;
+}
+
+.example:not(:last-child) {
+    margin-bottom: 16px;
+}
+
+.example {
+    border: 1px solid #ffffff20;
+    padding: 4px 8px;
+}
+
+.example details {
+    margin-top: 8px;
+    user-select: none;
+    border: 1px solid transparent;
+}
+
+.example details[open] {
+    background-color: #181818;
+    box-sizing: border-box;
+}
+
+.example summary {
+    opacity: 0.6;
+}
+
+.example details[open] summary {
+    padding-bottom: 8px;
 }
 
 h4 {
@@ -17,6 +51,19 @@ h4 {
     margin-bottom: 8px;
 }
 
+a {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
 code {
-    white-space: pre;
+    white-space: pre-wrap;
+}
+
+.section:not(:first-child) {
+    margin-top: 32px;
 }

@@ -30,7 +30,12 @@
 			<div id="editor-menu" class="menu-bar">
 				<button id="bold" onclick="applyStyle('bold')">B</button>
 				<button id="italic" onclick="applyStyle('italic')">I</button>
-				<button id="monospace" onclick="applyStyle('monospace')">M</button>
+				<button id="code" onclick="applyStyle('code')">M</button>
+				<span class="spacer"></span>
+				<button id="h1" onclick="applyStyle('h1')">H1</button>
+				<button id="h2" onclick="applyStyle('h2')">H2</button>
+				<button id="h3" onclick="applyStyle('h3')">H3</button>
+				<span class="fill-space"></span>
 				<button id="guide" onclick="openGuideDialog()">?</button>
 			</div>
 			<textarea id="editor" onkeyup="keyupEditor(event)" onkeydown="keydownEditor(event)" placeholder="Markdown goes here..."> </textarea>

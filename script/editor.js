@@ -201,7 +201,7 @@ function keydownEditor(e) {
 				applyStyle("italic");
 				break;
 			case "m":
-				applyStyle("monospace");
+				applyStyle("code");
 				break;
 		}
 
@@ -213,13 +213,17 @@ function keydownEditor(e) {
 	if (e.key === "Enter") {
 		handleListEnter(e);
 	} else if (e.key === "Tab") {
-		if (getCurrentListSymbol()) {
-			let oldPos = cursorPosInLine();
-			moveCursor(-oldPos);
-			insertText(" ".repeat(TAB_SPACING));
-			moveCursor(oldPos);
+		if (e.shiftKey) {
+			decreaseIndent();
 		} else {
-			insertText(" ".repeat(TAB_SPACING));
+			if (getCurrentListSymbol()) {
+				let oldPos = cursorPosInLine();
+				moveCursor(-oldPos);
+				insertText(" ".repeat(TAB_SPACING));
+				moveCursor(oldPos);
+			} else {
+				insertText(" ".repeat(TAB_SPACING));
+			}
 		}
 
 		e.preventDefault();
@@ -256,11 +260,7 @@ function handleListEnter(e) {
 				moveCursor(Math.max(-fromEnd, -line.length));
 			} else {
 				// Otherwise, decrease indentation by 1
-				let before = editor.value.slice(0, startOfLinePos());
-				let after = editor.value.slice(startOfLinePos() + TAB_SPACING, editor.value.length);
-
-				setText(before + after);
-				moveCursor(Math.max(-fromEnd, -TAB_SPACING));
+				decreaseIndent();
 			}
 
 			// If exiting the list or reducing the indentation, prevent actual keypress from being handled
@@ -268,6 +268,27 @@ function handleListEnter(e) {
 			preventKeyup = true;
 			autoAddedText = null;
 		}
+	}
+}
+
+function decreaseIndent() {
+	let fromEnd = editor.value.length - editor.selectionEnd;
+	let listSymbol = getCurrentListSymbol();
+
+	if (!!listSymbol && currLineIndentation() === 0) {
+		let lineLength = getCurrentLine().length;
+		let linePos = cursorPosInLine();
+		let before = editor.value.slice(0, editor.selectionStart - cursorPosInLine());
+		let after = editor.value.slice(editor.selectionStart - cursorPosInLine() + listSymbol.length, editor.value.length);
+
+		setText(before + after);
+		moveCursor(-linePos);
+	} else {
+		let before = editor.value.slice(0, startOfLinePos());
+		let after = editor.value.slice(startOfLinePos() + TAB_SPACING, editor.value.length);
+
+		setText(before + after);
+		moveCursor(Math.max(-fromEnd, -TAB_SPACING));
 	}
 }
 
@@ -371,8 +392,8 @@ function getCurrentLine() {
 }
 
 function applyStyle(style) {
-	let prefix;
-	let suffix;
+	let prefix = "";
+	let suffix = "";
 
 	switch (style) {
 		case "bold":
@@ -383,9 +404,18 @@ function applyStyle(style) {
 			prefix = "_";
 			suffix = "_";
 			break;
-		case "monospace":
+		case "code":
 			prefix = "`";
 			suffix = "`";
+			break;
+		case "h1":
+			prefix = "# ";
+			break;
+		case "h2":
+			prefix = "## ";
+			break;
+		case "h3":
+			prefix = "### ";
 			break;
 	}
 
@@ -413,7 +443,7 @@ function applyStyle(style) {
 
 		setText(before + middle + after);
 		editor.selectionStart -= selectionLength + prefix.length;
-		editor.selectionEnd -= suffix.length;
+		editor.selectionEnd -= prefix.length;
 	} else if (startsWithPrefix && endsWithSuffix) {
 		// ___ Selected text starts with prefix and ends with suffix ___
 		let selectionLength = selectionEnd - selectionStart;
@@ -424,13 +454,13 @@ function applyStyle(style) {
 
 		setText(before + middle + after);
 		editor.selectionStart -= selectionLength;
-		editor.selectionEnd -= suffix.length * 2;
+		editor.selectionEnd -= prefix.length + suffix.length;
 	} else {
 		if (selectionStart == selectionEnd) {
 			// ___ No text selected, add prefix and suffix ___
 
 			insertText(prefix + suffix);
-			moveCursor(-prefix.length);
+			moveCursor(-suffix.length);
 		} else {
 			// ___ Wrap selected text with prefix and suffix ___
 
