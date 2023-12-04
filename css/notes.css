@@ -89,4 +89,7 @@
 	opacity: 0.6;
 	transform: scale(0.8);
 	transform-origin: top left;
+
+	/* Increases width to accommodate for the scale transform */
+	margin-right: calc(20% * -1);
 }
