@@ -430,7 +430,7 @@ function applyStyle(style) {
 			// ___ No text selected, add prefix and suffix ___
 
 			insertText(prefix + suffix);
-			moveCursor(-2);
+			moveCursor(-prefix.length);
 		} else {
 			// ___ Wrap selected text with prefix and suffix ___
 
