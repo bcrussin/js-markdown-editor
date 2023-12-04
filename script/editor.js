@@ -203,6 +203,8 @@ function keydownEditor(e) {
 			case "m":
 				applyStyle("code");
 				break;
+			default:
+				return true;
 		}
 
 		e.preventDefault();
