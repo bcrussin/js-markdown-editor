@@ -45,11 +45,12 @@ window.onload = () => {
 	const urlParams = new URLSearchParams(window.location.search);
 	noteName = decodeURIComponent(urlParams.get("name"));
 
-	if (noteName == undefined) {
+	if (noteName == null || noteName == "null") {
 		checkLocalStorage();
 		createNewNote();
 	} else {
 		isNew = false;
+		checkLocalStorage();
 		fetchNoteData();
 	}
 };
@@ -68,12 +69,12 @@ function checkLocalStorage() {
 function createNewNote() {
 	let noteId = Object.keys(notes).length;
 
-	noteName = "Untitled Note " + noteId;
+	noteName = noteName || "Untitled Note " + noteId;
 	title.value = noteName;
-	editor.value = "";
+	editor.value = editor.value || "";
 
 	notes[noteName] = {
-		markdown: "",
+		markdown: editor.value,
 	};
 
 	saveNotes();
@@ -90,7 +91,7 @@ function fetchNoteData() {
 	notes = JSON.parse(localStorage.getItem("notes"));
 
 	title.value = noteName;
-	editor.value = notes[noteName].markdown ?? "";
+	editor.value = notes[noteName]?.markdown ?? "";
 
 	renderPreview();
 }
@@ -102,6 +103,8 @@ function renderPreview() {
 }
 
 function updateNote(key, value) {
+	if (!(noteName in notes)) createNewNote();
+
 	if (key === "title") {
 		if (value !== noteName) {
 			notes[value] = notes[noteName];
@@ -141,46 +144,51 @@ function updateTitle() {
 }
 
 function insertText(text, updateCursorParam = true) {
-	let oldStart = editor.selectionStart;
-	let oldEnd = editor.selectionEnd;
-	let before = editor.value.slice(0, editor.selectionStart);
-	let after = editor.value.slice(editor.selectionEnd, editor.value.length);
+	let oldStart = selectionStart;
+	let oldEnd = selectionEnd;
+	let before = editor.value.slice(0, selectionStart);
+	let after = editor.value.slice(selectionEnd, editor.value.length);
 
 	editor.value = before + text + after;
 
-	editor.selectionStart = oldStart;
-	editor.selectionEnd = oldEnd;
+	selectionStart = oldStart;
+	selectionEnd = oldEnd;
 	if (!!updateCursorParam) moveCursor(text.length, updateCursorParam);
 	updateMarkdown();
 }
 
 function setText(text) {
-	let oldPos = editor.selectionEnd;
+	let oldPos = selectionEnd;
 	editor.value = text;
-	editor.selectionEnd = oldPos;
+	selectionEnd = oldPos;
 }
 
 function moveCursor(delta, keepSelection = false) {
-	editor.selectionEnd += delta;
+	selectionEnd += delta;
 
-	if (keepSelection) editor.selectionStart += delta;
-	else editor.selectionStart = editor.selectionEnd;
+	if (keepSelection) selectionStart += delta;
+	else selectionStart = selectionEnd;
 }
 
 function setCursor(pos) {
-	editor.selectionStart = pos;
-	editor.selectionEnd = pos;
+	selectionStart = pos;
+	selectionEnd = pos;
+}
+
+function updateCursor() {
+	selectionStart = editor.selectionStart;
+	selectionEnd = editor.selectionEnd;
 }
 
 function cursorPosInLine() {
-	let before = editor.value.substring(0, editor.selectionStart);
+	let before = editor.value.substring(0, selectionStart);
 	let startPos = Math.max(before.lastIndexOf("\n") + 1, 0);
 
-	return editor.selectionEnd - startPos;
+	return selectionEnd - startPos;
 }
 
 function startOfLinePos() {
-	let before = editor.value.substring(0, editor.selectionStart);
+	let before = editor.value.substring(0, selectionStart);
 	let startPos = Math.max(before.lastIndexOf("\n") + 1, 0);
 
 	return startPos;
@@ -255,7 +263,7 @@ function keydownEditor(e) {
 function handleListEnter(e) {
 	// There are many possible scenarios when pressing "enter" while inside a list
 	let line = getCurrentLine();
-	let fromEnd = editor.value.length - editor.selectionEnd;
+	let fromEnd = editor.value.length - selectionEnd;
 
 	// Check if current line is a list
 	// If so, get that list's symbol (a dash, number, etc.)
@@ -272,11 +280,11 @@ function handleListEnter(e) {
 		let afterSymbol = line.slice(autoAddedText.length, line.length); // Rest of the line after the list symbol
 
 		// If "enter" is pressed on an empty list item, that's where the fun begins
-		if (afterSymbol.trim().length === 0 && editor.selectionStart === editor.selectionEnd) {
+		if (afterSymbol.trim().length === 0 && selectionStart === selectionEnd) {
 			if (currLineIndentation() === 0) {
 				// If indentation level is 0, exit the list
-				let before = editor.value.slice(0, editor.selectionStart - cursorPosInLine());
-				let after = editor.value.slice(editor.selectionEnd, editor.value.length);
+				let before = editor.value.slice(0, selectionStart - cursorPosInLine());
+				let after = editor.value.slice(selectionEnd, editor.value.length);
 
 				setText(before + after);
 				moveCursor(Math.max(-fromEnd, -line.length));
@@ -294,14 +302,14 @@ function handleListEnter(e) {
 }
 
 function decreaseIndent() {
-	let fromEnd = editor.value.length - editor.selectionEnd;
+	let fromEnd = editor.value.length - selectionEnd;
 	let listSymbol = getCurrentListSymbol();
 
 	if (!!listSymbol && currLineIndentation() === 0) {
 		let lineLength = getCurrentLine().length;
 		let linePos = cursorPosInLine();
-		let before = editor.value.slice(0, editor.selectionStart - cursorPosInLine());
-		let after = editor.value.slice(editor.selectionStart - cursorPosInLine() + listSymbol.length, editor.value.length);
+		let before = editor.value.slice(0, selectionStart - cursorPosInLine());
+		let after = editor.value.slice(selectionStart - cursorPosInLine() + listSymbol.length, editor.value.length);
 
 		setText(before + after);
 		moveCursor(-linePos);
@@ -315,6 +323,8 @@ function decreaseIndent() {
 }
 
 function keyupEditor(e) {
+	updateCursor();
+
 	// Skip handling this keypress if desired
 	if (preventKeyup) {
 		e.preventDefault();
@@ -348,8 +358,8 @@ function updateMarkdown() {
 }
 
 editor.addEventListener("selectionchange", () => {
-	selectionStart = editor.selectionStart;
-	selectionEnd = editor.selectionEnd;
+	selectionStart = selectionStart;
+	selectionEnd = selectionEnd;
 });
 
 function exportMD() {
@@ -401,14 +411,14 @@ function showConsoleMessage(message) {
 }
 
 function getCurrentLine() {
-	if (editor.selectionStart == null) return;
+	if (selectionStart == null) return;
 
 	let text = editor.value;
-	let before = text.substring(0, editor.selectionStart);
-	let after = text.substring(editor.selectionEnd, text.length);
+	let before = text.substring(0, selectionStart);
+	let after = text.substring(selectionEnd, text.length);
 
 	let startPos = Math.max(before.lastIndexOf("\n") + 1, 0);
-	let endPos = after.indexOf("\n") >= 0 ? after.indexOf("\n") + editor.selectionEnd : text.length;
+	let endPos = after.indexOf("\n") >= 0 ? after.indexOf("\n") + selectionEnd : text.length;
 
 	return text.slice(startPos, endPos);
 }
@@ -515,8 +525,8 @@ function applyStyle(style) {
 		middle = editor.value.slice(selectionStart, selectionEnd);
 
 		setText(before + middle + after);
-		editor.selectionStart -= selectionLength + prefix.length;
-		editor.selectionEnd -= prefix.length;
+		selectionStart -= selectionLength + prefix.length;
+		selectionEnd -= prefix.length;
 	} else if (startsWithPrefix && endsWithSuffix) {
 		// ___ Selected text starts with prefix and ends with suffix ___
 		let selectionLength = selectionEnd - selectionStart;
@@ -526,8 +536,8 @@ function applyStyle(style) {
 		middle = editor.value.slice(selectionStart + prefix.length, selectionEnd - suffix.length);
 
 		setText(before + middle + after);
-		editor.selectionStart -= selectionLength;
-		editor.selectionEnd -= prefix.length + suffix.length;
+		selectionStart -= selectionLength;
+		selectionEnd -= prefix.length + suffix.length;
 	} else {
 		if (selectionStart == selectionEnd) {
 			// ___ No text selected, add prefix and suffix ___

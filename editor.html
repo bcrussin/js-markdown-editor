@@ -42,7 +42,7 @@
 				<span class="fill-space"></span>
 				<button id="guide" onclick="openGuideDialog()">?</button>
 			</div>
-			<textarea id="editor" onkeyup="keyupEditor(event)" onkeydown="keydownEditor(event)" placeholder="Markdown goes here..."> </textarea>
+			<textarea id="editor" onkeyup="keyupEditor(event)" onkeydown="keydownEditor(event)" onclick="updateCursor();" placeholder="Markdown goes here..."> </textarea>
 		</div>
 		<div id="preview-container">
 			<div id="preview-menu" class="menu-bar">

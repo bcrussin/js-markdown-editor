@@ -54,7 +54,6 @@ function parseCheatSheet(data) {
 		sectionContent.className = "section-content";
 		sectionDiv.appendChild(sectionContent);
 
-		//console.log(sectionName);
 		if (sectionItems.length > 0) {
 			for (let item of sectionItems) {
 				let title = document.createElement("h4");
