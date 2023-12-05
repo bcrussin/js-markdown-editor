@@ -27,9 +27,10 @@ const imageLabel = document.getElementById("image-label");
 const imageSrc = document.getElementById("image-src");
 const imageSubmit = document.getElementById("image-submit");
 
+let guideContent = document.getElementById("guide-content");
+
 let noteName;
 let isNew = true;
-let titleTimer;
 let editorTimer;
 let consoleTimer;
 let notes;
@@ -131,11 +132,6 @@ function redirectURL() {
 	let url = new URL(window.location.href);
 	url.searchParams.set("name", noteName);
 	window.history.pushState(null, "", url.toString());
-}
-
-function keyupTitle() {
-	clearTimeout(titleTimer);
-	titleTimer = setTimeout(() => updateTitle(), SAVE_DELAY);
 }
 
 function updateTitle() {
@@ -426,6 +422,7 @@ function clickGuideDialog(e) {
 function openGuideDialog() {
 	dialog.showModal();
 	dialogBackdrop.classList.add("open");
+	guideContent.contentWindow.loadCheatSheet();
 }
 
 function closeGuideDialog() {

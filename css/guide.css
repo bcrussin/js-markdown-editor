@@ -1,12 +1,7 @@
 body {
     height: 100%;
     margin: 8px;
-    border: 2px solid #ffffff20;
     overflow-y: scroll;
-}
-
-main {
-    background-color: #181818 !important;
 }
 
 #search-form {
@@ -14,13 +9,24 @@ main {
     margin: 16px auto;
 }
 
+#search {
+    padding: 16px 8px;
+    width: min(100%, 300px);
+}
+
 #guide-content {
     padding: 4px 16px;
     padding-bottom: 16px;
+    width: min(100%, 600px);
+    margin: 0 auto;
 }
 
 .syntax {
     margin-left: 16px;
+}
+
+.section {
+    margin-bottom: 32px;
 }
 
 .section-content {
@@ -56,15 +62,18 @@ main {
     margin-top: 8px;
     user-select: none;
     border: 1px solid transparent;
+    padding: 0 16px 8px 16px;
 }
 
 .example details[open] {
-    background-color: #181818;
     box-sizing: border-box;
+    background-color: #18181860 !important;
+    border: 1px solid #ffffff20;
 }
 
 .example summary {
     opacity: 0.6;
+    padding-top: 8px;
 }
 
 .example details[open] summary {
@@ -87,8 +96,4 @@ a:not(.back-button):hover {
 
 code {
     white-space: pre-wrap;
-}
-
-.section:not(:first-child) {
-    margin-top: 32px;
 }

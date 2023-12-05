@@ -8,9 +8,7 @@ const search = document.getElementById("search");
 let cheatSheetData;
 let basicSyntaxData;
 
-this.onload = () => {
-	loadCheatSheet();
-};
+this.onload = () => {};
 
 function loadCheatSheet() {
 	if (!!cheatSheetData) {
@@ -46,22 +44,31 @@ function parseCheatSheet(data) {
 
 		let sectionDiv = document.createElement("div");
 		sectionDiv.className = "section";
-		let header = document.createElement("h2");
-		header.innerHTML = sectionName;
-		sectionDiv.appendChild(header);
 
 		let sectionContent = document.createElement("div");
 		sectionContent.className = "section-content";
+
+		let header = document.createElement("h2");
+		header.innerHTML = sectionName;
+		header.className = "section-header";
+		sectionContent.appendChild(header);
+
 		sectionDiv.appendChild(sectionContent);
 
 		if (sectionItems.length > 0) {
 			for (let item of sectionItems) {
 				let title = document.createElement("h4");
-				let titleLink = document.createElement("a");
-				titleLink.innerHTML = item["element"];
-				titleLink.className = "section-title";
-				titleLink.onclick = () => parseBasicSyntax(titleLink.innerHTML);
-				title.appendChild(titleLink);
+
+				if (sectionName === "Basic Syntax") {
+					let titleLink = document.createElement("a");
+					titleLink.innerHTML = item["element"];
+					titleLink.className = "section-title";
+					titleLink.onclick = () => parseBasicSyntax(titleLink.innerHTML);
+					title.appendChild(titleLink);
+				} else {
+					title.innerHTML = item["element"];
+					title.className = "section-title";
+				}
 
 				let syntaxContainer = document.createElement("div");
 				syntaxContainer.className = "syntax";
@@ -130,7 +137,7 @@ async function parseBasicSyntax(name) {
 	let sectionDiv = document.createElement("div");
 
 	let backButton = document.createElement("a");
-	backButton.setAttribute("class", "btn btn-secondary back-button");
+	backButton.setAttribute("class", "btn btn-outline-secondary back-button");
 	backButton.innerHTML = "&larr; Back";
 	backButton.onclick = () => parseCheatSheet();
 	sectionDiv.appendChild(backButton);
@@ -138,6 +145,7 @@ async function parseBasicSyntax(name) {
 	for (let item of data) {
 		let sectionContent = document.createElement("div");
 		sectionContent.className = "section-content";
+		sectionContent.style.maxWidth = "600px";
 
 		let header = document.createElement("h2");
 		header.innerHTML = item["name"];
@@ -153,7 +161,6 @@ async function parseBasicSyntax(name) {
 		let exampleHeader = document.createElement("h4");
 		exampleHeader.innerHTML = "Examples:";
 		let examplesContent = document.createElement("div");
-		examplesContent.className = "section-content";
 
 		for (let example of item["examples"]) {
 			let exampleContainer = document.createElement("div");
@@ -170,7 +177,6 @@ async function parseBasicSyntax(name) {
 			exampleDetails.appendChild(summary);
 
 			let exampleHtml = document.createElement("div");
-			exampleHtml.className = "section-content";
 			exampleHtml.innerHTML = example["html"];
 			exampleDetails.appendChild(exampleHtml);
 			exampleContainer.appendChild(exampleDetails);
