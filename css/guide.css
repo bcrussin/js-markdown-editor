@@ -17,12 +17,9 @@ body {
 #guide-content {
     padding: 4px 16px;
     padding-bottom: 16px;
-    width: min(100%, 600px);
+    width: 100%;
+    max-width: 600px;
     margin: 0 auto;
-}
-
-.syntax {
-    margin-left: 16px;
 }
 
 .section {
@@ -30,11 +27,33 @@ body {
 }
 
 .section-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     margin-left: 16px;
 }
 
-.section-title {
+.element {
+    margin: 8px;
+    padding: 8px 16px;
+    background-color: #181818;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+}
+
+.element-title {
+    flex: 0;
     font-size: 14pt;
+    margin: 0;
+}
+
+.element-syntax {
+    flex: 1 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .placeholder {
@@ -78,11 +97,6 @@ body {
 
 .example details[open] summary {
     padding-bottom: 8px;
-}
-
-h4 {
-    margin-top: 24px;
-    margin-bottom: 8px;
 }
 
 a {

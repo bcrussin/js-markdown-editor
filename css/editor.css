@@ -1,6 +1,10 @@
 body {
 	max-height: calc(100vh - 16px);
-	width: calc(100vw - 16px);
+	width: 100%;
+}
+
+nav {
+	margin-bottom: 0;
 }
 
 main {
@@ -34,6 +38,7 @@ textarea,
 	flex: 1 1 auto;
 	overflow-y: auto;
 	height: 0px;
+	min-height: 300px;
 	margin-top: 8px !important;
 	border-radius: 8px !important;
 	border: 2px solid #ffffff20 !important;
@@ -57,18 +62,19 @@ textarea {
 
 .menu-bar {
 	width: 100%;
-	height: 32px;
 	border-radius: 8px;
 	background-color: #00000040;
 	display: flex;
 	justify-content: start;
 	align-items: center;
+	flex-wrap: wrap;
+
 }
 
 .menu-bar button {
 	font-family: 'Courier New', Courier, monospace;
 	color: white;
-	height: 100%;
+	height: 32px;
 	aspect-ratio: 1;
 	margin: 0 1px;
 	font-size: 14pt;
@@ -87,7 +93,7 @@ textarea {
 .menu-bar .spacer {
 	margin: 2px 8px;
 	border: 1px solid #ffffff20;
-	height: 60%;
+	height: 28px;
 }
 
 .menu-bar .fill-space {
@@ -217,6 +223,6 @@ textarea {
 
 	main>div {
 		aspect-ratio: 1;
-		width: calc(100% - 32px);
+		width: calc(100% - 16px);
 	}
 }

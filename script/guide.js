@@ -51,34 +51,38 @@ function parseCheatSheet(data) {
 		let header = document.createElement("h2");
 		header.innerHTML = sectionName;
 		header.className = "section-header";
-		sectionContent.appendChild(header);
+		sectionDiv.appendChild(header);
 
 		sectionDiv.appendChild(sectionContent);
 
 		if (sectionItems.length > 0) {
 			for (let item of sectionItems) {
+				let element = document.createElement("div");
+				element.className = "element";
+
 				let title = document.createElement("h4");
 
 				if (sectionName === "Basic Syntax") {
 					let titleLink = document.createElement("a");
 					titleLink.innerHTML = item["element"];
-					titleLink.className = "section-title";
+					titleLink.className = "element-title";
 					titleLink.onclick = () => parseBasicSyntax(titleLink.innerHTML);
 					title.appendChild(titleLink);
 				} else {
 					title.innerHTML = item["element"];
-					title.className = "section-title";
+					title.className = "element-title";
 				}
 
 				let syntaxContainer = document.createElement("div");
-				syntaxContainer.className = "syntax";
+				syntaxContainer.className = "element-syntax";
 
 				let syntax = document.createElement("code");
 				syntax.innerHTML = item["syntax"];
 				syntaxContainer.appendChild(syntax);
 
-				sectionContent.appendChild(title);
-				sectionContent.appendChild(syntaxContainer);
+				element.appendChild(title);
+				element.appendChild(syntaxContainer);
+				sectionContent.appendChild(element);
 			}
 		} else {
 			let placeholder = document.createElement("span");

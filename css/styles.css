@@ -21,6 +21,11 @@ nav {
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
+	margin-bottom: 16px;
+}
+
+.bg-dark {
+	background-color: #212121 !important;
 }
 
 #nav-left,
@@ -32,16 +37,11 @@ nav {
 	text-align: right;
 }
 
-nav h1,
 nav input {
-	margin: 0 32px;
-	font-size: 24pt;
-	padding: 8px;
 	border-radius: 8px;
+	height: 40px;
+	font-size: 16pt;
 	text-align: center;
-}
-
-nav input {
 	background-color: #3a3a3c;
 	color: #dddddd;
 	border: none;

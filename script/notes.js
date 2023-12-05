@@ -81,6 +81,7 @@ function addNoteCard(title, note) {
 
 	let titleHeader = document.createElement("h2");
 	titleHeader.innerHTML = title;
+	titleHeader.className = "note-title";
 
 	let preview = document.createElement("div");
 	preview.className = "note-preview";
