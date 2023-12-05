@@ -151,8 +151,8 @@ function insertText(text, updateCursorParam = true) {
 
 	editor.value = before + text + after;
 
-	selectionStart = oldStart;
-	selectionEnd = oldEnd;
+	editor.selectionStart = oldStart;
+	editor.selectionEnd = oldEnd;
 	if (!!updateCursorParam) moveCursor(text.length, updateCursorParam);
 	updateMarkdown();
 }
@@ -160,19 +160,32 @@ function insertText(text, updateCursorParam = true) {
 function setText(text) {
 	let oldPos = selectionEnd;
 	editor.value = text;
-	selectionEnd = oldPos;
+	editor.selectionEnd = oldPos;
 }
 
 function moveCursor(delta, keepSelection = false) {
-	selectionEnd += delta;
+	editor.selectionEnd += delta;
 
-	if (keepSelection) selectionStart += delta;
-	else selectionStart = selectionEnd;
+	if (keepSelection) editor.selectionStart += delta;
+	else editor.selectionStart = editor.selectionEnd;
+
+	updateCursor();
+}
+
+function moveCursorStart(delta) {
+	editor.selectionStart += delta;
+	updateCursor();
+}
+
+function moveCursorEnd(delta) {
+	editor.selectionEnd += delta;
+	updateCursor();
 }
 
 function setCursor(pos) {
-	selectionStart = pos;
-	selectionEnd = pos;
+	editor.selectionStart = pos;
+	editor.selectionEnd = pos;
+	updateCursor();
 }
 
 function updateCursor() {
@@ -525,8 +538,8 @@ function applyStyle(style) {
 		middle = editor.value.slice(selectionStart, selectionEnd);
 
 		setText(before + middle + after);
-		selectionStart -= selectionLength + prefix.length;
-		selectionEnd -= prefix.length;
+		moveCursorStart(-selectionLength - prefix.length);
+		moveCursorEnd(-prefix.length);
 	} else if (startsWithPrefix && endsWithSuffix) {
 		// ___ Selected text starts with prefix and ends with suffix ___
 		let selectionLength = selectionEnd - selectionStart;
@@ -536,8 +549,8 @@ function applyStyle(style) {
 		middle = editor.value.slice(selectionStart + prefix.length, selectionEnd - suffix.length);
 
 		setText(before + middle + after);
-		selectionStart -= selectionLength;
-		selectionEnd -= prefix.length + suffix.length;
+		moveCursorStart(-selectionLength);
+		moveCursorEnd(-prefix.length - suffix.length);
 	} else {
 		if (selectionStart == selectionEnd) {
 			// ___ No text selected, add prefix and suffix ___
