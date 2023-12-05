@@ -120,6 +120,27 @@
 		</div>
 	</div>
 
+	<div class="modal fade overwrite-modal" id="overwriteModal" data-bs-theme="dark">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5">Overwrite Note?</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<p>A note already exists with this name. Are you sure you would like to overwrite it?</p>
+					<ul>
+						<li><code id="overwrite-name"></code></li>
+					</ul>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="restoreNoteName()">Cancel</button>
+					<button type="button" id="overwrite-submit" class="btn btn-danger" onclick="overwriteNoteName()">Overwrite</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<!--<div id="console">
 		<span id="console-text"></span>
 	</div>-->

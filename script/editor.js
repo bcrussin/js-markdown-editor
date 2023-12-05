@@ -27,10 +27,13 @@ const imageLabel = document.getElementById("image-label");
 const imageSrc = document.getElementById("image-src");
 const imageSubmit = document.getElementById("image-submit");
 
+const overwriteModal = new bootstrap.Modal(document.querySelector("#overwriteModal"));
+const overwriteName = document.getElementById("overwrite-name");
+let newName;
+
 let guideContent = document.getElementById("guide-content");
 
 let noteName;
-let isNew = true;
 let editorTimer;
 let consoleTimer;
 let notes;
@@ -52,7 +55,6 @@ window.onload = () => {
 		checkLocalStorage();
 		createNewNote();
 	} else {
-		isNew = false;
 		checkLocalStorage();
 		fetchNoteData();
 	}
@@ -108,26 +110,47 @@ function renderPreview() {
 
 function updateNote(key, value) {
 	if (!(noteName in notes)) createNewNote();
+	console.log(notes[noteName]);
 
 	if (key === "title") {
 		if (value !== noteName) {
-			notes[value] = notes[noteName];
-			delete notes[noteName];
-			noteName = value;
-			redirectURL();
+			if (value in notes) {
+				newName = value;
+				openOverwriteDialog();
+				return;
+			} else {
+				renameNote(value);
+				return;
+			}
 		}
-	} else if (key === "body") {
-		notes[noteName][key] = value ?? "";
 	} else {
 		notes[noteName][key] = value;
 	}
 
-	if (isNew) {
-		redirectURL();
-		isNew = false;
-	}
-
 	saveNotes();
+}
+
+function renameNote(value) {
+	notes[value] = notes[noteName];
+	delete notes[noteName];
+	noteName = value;
+	redirectURL();
+	saveNotes();
+}
+
+function openOverwriteDialog() {
+	overwriteName.innerHTML = newName;
+	overwriteModal.show();
+}
+
+function restoreNoteName() {
+	title.value = noteName;
+}
+
+function overwriteNoteName() {
+	renameNote(newName);
+	newName = null;
+	overwriteModal.hide();
 }
 
 function redirectURL() {
