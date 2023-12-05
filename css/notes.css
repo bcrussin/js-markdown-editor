@@ -41,6 +41,14 @@
 
 .note-title {
 	overflow-y: hidden;
+	font-size: 16pt;
+	border-bottom: 1px solid #ffffff20;
+	padding-bottom: 8px;
+	text-align: left;
+	white-space: nowrap;
+	max-width: 100%;
+	text-overflow: ellipsis;
+	overflow-x: hidden;
 }
 
 .note-card-content {
@@ -88,21 +96,12 @@
 	outline-color: #ad4e4e;
 }
 
-.note-card h2 {
-	margin: 0 0 16px 0;
-	text-align: left;
-	white-space: nowrap;
-	max-width: 100%;
-	text-overflow: ellipsis;
-	overflow-x: hidden;
-}
-
 .note-preview {
 	height: 100%;
 	opacity: 0.6;
-	transform: scale(0.8);
+	transform: scale(0.75);
 	transform-origin: top left;
 
 	/* Increases width to accommodate for the scale transform */
-	margin-right: calc(20% * -1);
+	margin-right: calc(15% * -1);
 }

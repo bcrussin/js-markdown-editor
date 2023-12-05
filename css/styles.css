@@ -38,8 +38,11 @@ nav {
 }
 
 nav input {
+	flex: 1 1;
 	border-radius: 8px;
 	height: 40px;
+	width: 100%;
+	max-width: min(100%, 400px);
 	font-size: 16pt;
 	text-align: center;
 	background-color: #3a3a3c;
@@ -80,6 +83,30 @@ input[type="search"] {
 	border: none;
 	border-radius: 4px;
 	height: 24px;
+}
+
+.note-preview h1 {
+	font-size: 2em;
+}
+
+.note-preview h2 {
+	font-size: 1.5em;
+}
+
+.note-preview h3 {
+	font-size: 1.17em;
+}
+
+.note-preview h4 {
+	font-size: 1em;
+}
+
+.note-preview h5 {
+	font-size: 0.83em;
+}
+
+.note-preview h6 {
+	font-size: 0.67em;
 }
 
 @media only screen and (orientation:portrait) {
