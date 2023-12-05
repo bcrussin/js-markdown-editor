@@ -43,6 +43,10 @@
 	transition: opacity 0.2s;
 }
 
+.note-card-content code {
+	filter: brightness(1.8);
+}
+
 .note-card:hover .note-card-content {
 	opacity: 1;
 }

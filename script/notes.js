@@ -4,6 +4,11 @@ let numCards = 0;
 const search = document.getElementById("search");
 const notesContainer = document.getElementById("note-cards-container");
 
+const deleteModal = new bootstrap.Modal(document.querySelector("#deleteModal"));
+const deleteName = document.getElementById("delete-name");
+
+let noteToDelete;
+
 window.onload = () => {
 	search.value = "";
 
@@ -17,10 +22,6 @@ window.onload = () => {
 };
 
 function deleteNote(title, id) {
-	if (!confirm("Are you sure you would like to delete this note?")) {
-		return;
-	}
-
 	delete notes[title];
 	localStorage.setItem("notes", JSON.stringify(notes));
 	removeNoteCard(id);
@@ -59,7 +60,9 @@ function addNoteCard(title, note) {
 	card.className = "note-card";
 	card.id = "note-" + id;
 	card.addEventListener("click", () => {
-		window.location.href = "editor.html?name=" + encodeURIComponent(title);
+		let href = "editor.html";
+		if (!!title) href += "?name=" + encodeURIComponent(title);
+		window.location.href = href;
 	});
 
 	let cardContent = document.createElement("div");
@@ -70,7 +73,10 @@ function addNoteCard(title, note) {
 	deleteButton.innerHTML = "&#x2715;";
 	deleteButton.addEventListener("click", (e) => {
 		e.stopPropagation();
-		deleteNote(title, id);
+		//deleteNote(title, id);
+		noteToDelete = [title, id];
+		deleteName.innerHTML = title;
+		deleteModal.show();
 	});
 
 	let titleHeader = document.createElement("h2");
@@ -94,4 +100,10 @@ function addNoteCard(title, note) {
 function removeNoteCard(id) {
 	let noteCard = document.getElementById("note-" + id);
 	noteCard.remove();
+}
+
+function deleteModalSubmit() {
+	deleteNote(noteToDelete[0], noteToDelete[1]);
+	noteToDelete = null;
+	deleteModal.hide();
 }

@@ -45,7 +45,8 @@ window.onload = () => {
 	const urlParams = new URLSearchParams(window.location.search);
 	noteName = decodeURIComponent(urlParams.get("name"));
 
-	if (noteName == null || noteName == "null") {
+	if (!urlParams.has("name")) {
+		noteName = null;
 		checkLocalStorage();
 		createNewNote();
 	} else {
