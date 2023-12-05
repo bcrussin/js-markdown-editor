@@ -164,20 +164,37 @@ function setText(text) {
 }
 
 function moveCursor(delta, keepSelection = false) {
-	editor.selectionEnd += delta;
+	moveCursorEnd(delta, false);
 
-	if (keepSelection) editor.selectionStart += delta;
+	if (keepSelection) moveCursorStart(delta);
 	else editor.selectionStart = editor.selectionEnd;
 
 	updateCursor();
 }
 
-function moveCursorStart(delta) {
+function moveCursorStart(delta, accountForEnd = true) {
+	console.log("start");
+	let fromEnd = editor.value.length - selectionEnd;
+	console.log(fromEnd, Math.abs(delta));
+	console.log();
+	if (accountForEnd && fromEnd < Math.abs(delta)) {
+		delta += fromEnd * Math.sign(delta);
+	}
+
 	editor.selectionStart += delta;
 	updateCursor();
 }
 
-function moveCursorEnd(delta) {
+function moveCursorEnd(delta, accountForEnd = true) {
+	console.log("end");
+	let fromEnd = editor.value.length - selectionEnd;
+	console.log(fromEnd, Math.abs(delta));
+	console.log();
+	if (accountForEnd && fromEnd < Math.abs(delta)) {
+		updateCursor();
+		return;
+	}
+
 	editor.selectionEnd += delta;
 	updateCursor();
 }
@@ -189,8 +206,10 @@ function setCursor(pos) {
 }
 
 function updateCursor() {
+	editor.focus();
 	selectionStart = editor.selectionStart;
 	selectionEnd = editor.selectionEnd;
+	console.log(selectionStart, selectionEnd);
 }
 
 function cursorPosInLine() {
@@ -385,7 +404,6 @@ function exportMD() {
 	element.href = window.URL.createObjectURL(fileBlob);
 	element.setAttribute("download", fileName);
 	element.click();
-	document.removeChild(element);
 }
 
 function clickGuideDialog(e) {
