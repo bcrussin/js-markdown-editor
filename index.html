@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
 	<link rel="stylesheet" href="css/styles.css" />
 	<link rel="stylesheet" href="css/notes.css" />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
@@ -25,10 +26,12 @@
 
 	<main>
 		<div id="controls-container">
+			<button class="btn btn-sm btn-light" onclick="openExportDialog()"><i class="bi bi-file-earmark-arrow-down h5"></i></button>
+			<button class="btn btn-sm btn-light" onclick="openImportDialog()"><i class="bi bi-file-earmark-plus h5"></i></button>
 			<form>
 				<input type="search" id="search" placeholder="Search notes" onkeyup="searchNotes(event.target.value)" />
 			</form>
-			<a href="editor.html"><button id="new-note">New Note</button></a>
+			<a href="editor.html"><button id="new-note" class="btn btn-sm btn-primary">New Note</button></a>
 		</div>
 		<div id="notes-container">
 			<p id="notes-placeholder">No notes found - click "New Note" to create one</p>
@@ -60,6 +63,46 @@
 			</div>
 		</div>
 	</div>
+
+	<div class="modal fade export-modal" id="exportModal" data-bs-theme="dark">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5">Export Notes</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<p>How would you like to export your notes?</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+					<button type="button" id="export-submit" class="btn btn-primary" onclick="exportNotesToJson()">Export JSON</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade import-modal" id="importModal" data-bs-theme="dark">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5">Import Notes</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="mb-3">
+						<label for="notesFiles" class="form-label">Upload .md or .json files</label>
+						<input class="form-control" type="file" id="notesFiles" multiple>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+					<button type="button" id="import-submit" class="btn btn-primary" onclick="importNotes()">Import</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 	<script src="script/showdown.js"></script>
 	<script src="script/notes.js"></script>

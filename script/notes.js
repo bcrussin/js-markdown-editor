@@ -7,6 +7,10 @@ const notesContainer = document.getElementById("note-cards-container");
 const deleteModal = new bootstrap.Modal(document.querySelector("#deleteModal"));
 const deleteName = document.getElementById("delete-name");
 
+const exportModal = new bootstrap.Modal(document.querySelector("#exportModal"));
+
+const importModal = new bootstrap.Modal(document.querySelector("#importModal"));
+
 let noteToDelete;
 
 window.onload = () => {
@@ -42,7 +46,7 @@ function addNoteCards(_notes) {
 	notesContainer.innerHTML = "";
 
 	_notes = _notes || notes;
-	if (Object.keys(_notes).length > 0) {
+	if (_notes != null && Object.keys(_notes).length > 0) {
 		document.getElementById("notes-placeholder").style.display = "none";
 
 		for (const [title, note] of Object.entries(_notes)) {
@@ -107,4 +111,35 @@ function deleteModalSubmit() {
 	deleteNote(noteToDelete[0], noteToDelete[1]);
 	noteToDelete = null;
 	deleteModal.hide();
+}
+
+function openExportDialog() {
+	exportModal.show();
+}
+
+function exportNotesToJson() {
+	exportModal.hide();
+
+	let date = new Date();
+	let year = date.getFullYear();
+	let month = date.getMonth();
+	month = "0".repeat(2 - month.toString().length) + month;
+	let day = date.getDate();
+	day = "0".repeat(2 - day.toString().length) + day;
+
+	let fullDate = `${year}-${month}-${day}`;
+
+	let fileName = `notes_${fullDate}.json`;
+	let fileBlob = new Blob([JSON.stringify(notes)], { type: "application/json" });
+
+	window.URL = window.URL || window.webkitURL;
+
+	let element = document.createElement("a");
+	element.href = window.URL.createObjectURL(fileBlob);
+	element.setAttribute("download", fileName);
+	element.click();
+}
+
+function openImportDialog() {
+	importModal.show();
 }

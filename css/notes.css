@@ -24,7 +24,8 @@
 
 #notes-placeholder {
 	opacity: 0.6;
-	margin: auto;
+	margin-top: 16px;
+	text-align: center;
 }
 
 .note-card {

@@ -45,6 +45,7 @@ let preventKeyup = false;
 window.onload = () => {
 	const urlParams = new URLSearchParams(window.location.search);
 	noteName = decodeURIComponent(urlParams.get("name"));
+	editor.value = "";
 
 	if (!urlParams.has("name")) {
 		noteName = null;
@@ -77,6 +78,7 @@ function createNewNote() {
 
 	notes[noteName] = {
 		markdown: editor.value,
+		created: new Date(),
 	};
 
 	saveNotes();
@@ -170,10 +172,7 @@ function moveCursor(delta, keepSelection = false) {
 }
 
 function moveCursorStart(delta, accountForEnd = true) {
-	console.log("start");
 	let fromEnd = editor.value.length - selectionEnd;
-	console.log(fromEnd, Math.abs(delta));
-	console.log();
 	if (accountForEnd && fromEnd < Math.abs(delta)) {
 		delta += fromEnd * Math.sign(delta);
 	}
@@ -183,10 +182,7 @@ function moveCursorStart(delta, accountForEnd = true) {
 }
 
 function moveCursorEnd(delta, accountForEnd = true) {
-	console.log("end");
 	let fromEnd = editor.value.length - selectionEnd;
-	console.log(fromEnd, Math.abs(delta));
-	console.log();
 	if (accountForEnd && fromEnd < Math.abs(delta)) {
 		updateCursor();
 		return;
@@ -206,7 +202,6 @@ function updateCursor() {
 	editor.focus();
 	selectionStart = editor.selectionStart;
 	selectionEnd = editor.selectionEnd;
-	console.log(selectionStart, selectionEnd);
 }
 
 function cursorPosInLine() {
