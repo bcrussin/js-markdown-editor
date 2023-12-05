@@ -1,20 +1,19 @@
 let notes;
 let numCards = 0;
 
+const search = document.getElementById("search");
+const notesContainer = document.getElementById("note-cards-container");
+
 window.onload = () => {
+	search.value = "";
+
 	try {
 		notes = JSON.parse(localStorage.getItem("notes"));
 	} catch {
 		return;
 	}
 
-	if (Object.keys(notes).length > 0) {
-		document.getElementById("notes-placeholder").remove();
-
-		for (const [title, note] of Object.entries(notes)) {
-			addNoteCard(title, note);
-		}
-	}
+	addNoteCards();
 };
 
 function deleteNote(title, id) {
@@ -25,6 +24,32 @@ function deleteNote(title, id) {
 	delete notes[title];
 	localStorage.setItem("notes", JSON.stringify(notes));
 	removeNoteCard(id);
+}
+
+function searchNotes(query) {
+	let filtered = {};
+	Object.entries(notes).forEach(([key, value]) => {
+		if (key.toLowerCase().includes(query.toLowerCase())) {
+			filtered[key] = value;
+		}
+	});
+
+	addNoteCards(filtered);
+}
+
+function addNoteCards(_notes) {
+	notesContainer.innerHTML = "";
+
+	_notes = _notes || notes;
+	if (Object.keys(_notes).length > 0) {
+		document.getElementById("notes-placeholder").style.display = "none";
+
+		for (const [title, note] of Object.entries(_notes)) {
+			addNoteCard(title, note);
+		}
+	} else {
+		document.getElementById("notes-placeholder").style.display = "block";
+	}
 }
 
 function addNoteCard(title, note) {
@@ -63,7 +88,7 @@ function addNoteCard(title, note) {
 
 	card.appendChild(cardContent);
 	card.appendChild(deleteButton);
-	document.getElementById("note-cards-container").appendChild(card);
+	notesContainer.appendChild(card);
 }
 
 function removeNoteCard(id) {

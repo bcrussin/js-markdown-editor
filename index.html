@@ -24,12 +24,15 @@
 	<main>
 		<div id="controls-container">
 			<form>
-				<input type="search" placeholder="Search notes:" />
+				<input type="search" id="search" placeholder="Search notes" onkeyup="searchNotes(event.target.value)" />
 			</form>
 			<a href="editor.html"><button id="new-note">New Note</button></a>
 		</div>
-		<div id="note-cards-container">
+		<div id="notes-container">
 			<p id="notes-placeholder">No notes found - click "New Note" to create one</p>
+			<div id="note-cards-container">
+
+			</div>
 		</div>
 	</main>
 
