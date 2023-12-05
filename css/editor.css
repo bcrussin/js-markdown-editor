@@ -34,7 +34,7 @@ textarea,
 	flex: 1 1 auto;
 	overflow-y: auto;
 	height: 0px;
-	margin-top: 8px;
+	margin-top: 8px !important;
 	border-radius: 8px !important;
 	border: 2px solid #ffffff20 !important;
 	max-height: min-content;
@@ -47,7 +47,7 @@ textarea {
 }
 
 #preview {
-	padding: 0 16px;
+	padding: 16px;
 }
 
 .container-header {
@@ -62,11 +62,13 @@ textarea {
 	background-color: #00000040;
 	display: flex;
 	justify-content: start;
+	align-items: center;
 }
 
 .menu-bar button {
 	font-family: 'Courier New', Courier, monospace;
 	color: white;
+	height: 100%;
 	aspect-ratio: 1;
 	margin: 0 1px;
 	font-size: 14pt;
@@ -85,6 +87,7 @@ textarea {
 .menu-bar .spacer {
 	margin: 2px 8px;
 	border: 1px solid #ffffff20;
+	height: 60%;
 }
 
 .menu-bar .fill-space {
@@ -149,6 +152,7 @@ textarea {
 	color: #dddddd;
 	flex: 0 0 auto;
 	padding: 0 16px;
+	padding-top: 12px;
 	display: flex;
 	align-items: center;
 	position: relative;
@@ -181,6 +185,29 @@ textarea {
 	right: 0;
 	bottom: 0;
 	background-color: #00000080;
+}
+
+.menu-bar #last-saved {
+	opacity: 0.6;
+	font-size: 10pt;
+	margin-right: 16px;
+	transition: opacity 1s;
+}
+
+.insert-modal .modal-body {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.insert-modal .modal-body div {
+	display: flex;
+	flex-direction: column;
+}
+
+.insert-modal .modal-body div:not(:first-child) {
+	margin-top: 16px;
 }
 
 @media only screen and (orientation:portrait) {

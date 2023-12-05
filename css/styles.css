@@ -1,5 +1,5 @@
 body {
-	background-color: #212121;
+	background-color: #212121 !important;
 	color: #dddddd;
 	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 
@@ -8,6 +8,11 @@ body {
 	justify-content: stretch;
 
 	height: 100vh;
+}
+
+.modal-content {
+	background-color: #212121 !important;
+	color: #dddddd !important;
 }
 
 nav {
@@ -48,13 +53,18 @@ nav input {
 
 a,
 a:visited {
-	color: #4493d3;
+	color: #4493d3 !important;
 }
 
 button {
 	border: none;
-	border-radius: 4px;
+	border-radius: 4px !important;
 	padding: 4px 8px;
+}
+
+button:disabled {
+	cursor: not-allowed;
+	pointer-events: all !important;
 }
 
 input[type="search"] {

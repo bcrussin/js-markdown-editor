@@ -2,6 +2,8 @@ const CHEAT_SHEET_URL = "https://corsproxy.io/?https://www.markdownguide.org/api
 const BASIC_SYNTAX_URL = "https://corsproxy.io/?https://www.markdownguide.org/api/v1/basic-syntax.json";
 
 const guideContent = document.getElementById("guide-content");
+const searchForm = document.getElementById("search-form");
+const search = document.getElementById("search");
 
 let cheatSheetData;
 let basicSyntaxData;
@@ -23,10 +25,13 @@ function loadCheatSheet() {
 	}
 }
 
-function parseCheatSheet() {
-	let data = cheatSheetData;
+function parseCheatSheet(data) {
+	searchForm.style.display = "block";
+
 	guideContent.innerHTML = "";
 	guideContent.scroll(0, 0);
+
+	data = data || cheatSheetData;
 
 	for (let sectionObject of data) {
 		let sectionName = Object.keys(sectionObject)[0];
@@ -50,27 +55,51 @@ function parseCheatSheet() {
 		sectionDiv.appendChild(sectionContent);
 
 		//console.log(sectionName);
-		for (let item of sectionItems) {
-			//console.log(item);
-			let title = document.createElement("h4");
-			let titleLink = document.createElement("a");
-			titleLink.innerHTML = item["element"];
-			titleLink.onclick = () => parseBasicSyntax(titleLink.innerHTML);
-			title.appendChild(titleLink);
+		if (sectionItems.length > 0) {
+			for (let item of sectionItems) {
+				let title = document.createElement("h4");
+				let titleLink = document.createElement("a");
+				titleLink.innerHTML = item["element"];
+				titleLink.className = "section-title";
+				titleLink.onclick = () => parseBasicSyntax(titleLink.innerHTML);
+				title.appendChild(titleLink);
 
-			let syntaxContainer = document.createElement("div");
-			syntaxContainer.className = "syntax";
+				let syntaxContainer = document.createElement("div");
+				syntaxContainer.className = "syntax";
 
-			let syntax = document.createElement("code");
-			syntax.innerHTML = item["syntax"];
-			syntaxContainer.appendChild(syntax);
+				let syntax = document.createElement("code");
+				syntax.innerHTML = item["syntax"];
+				syntaxContainer.appendChild(syntax);
 
-			sectionContent.appendChild(title);
-			sectionContent.appendChild(syntaxContainer);
+				sectionContent.appendChild(title);
+				sectionContent.appendChild(syntaxContainer);
+			}
+		} else {
+			let placeholder = document.createElement("span");
+			placeholder.className = "placeholder";
+			placeholder.appendChild(document.createTextNode("No entries found"));
+
+			sectionContent.appendChild(placeholder);
 		}
 
 		guideContent.appendChild(sectionDiv);
 	}
+}
+
+function searchCheatSheet(query) {
+	let filtered = structuredClone(cheatSheetData);
+
+	for (const [sectionName, _section] of Object.entries(filtered)) {
+		Object.keys(_section).forEach((item) => {
+			let section = Object.values(_section)[0];
+			section = section.filter((item) => item["element"].toLowerCase().includes(query.toLowerCase()));
+			_section[item] = section;
+		});
+
+		filtered[sectionName] = _section;
+	}
+
+	parseCheatSheet(filtered);
 }
 
 async function loadBasicSyntax() {
@@ -88,6 +117,9 @@ async function parseBasicSyntax(name) {
 		await loadBasicSyntax();
 	}
 
+	searchForm.style.display = "none";
+	search.value = "";
+
 	let data = Object.values(basicSyntaxData);
 	guideContent.innerHTML = "";
 	guideContent.scroll(0, 0);
@@ -99,6 +131,7 @@ async function parseBasicSyntax(name) {
 	let sectionDiv = document.createElement("div");
 
 	let backButton = document.createElement("a");
+	backButton.setAttribute("class", "btn btn-secondary back-button");
 	backButton.innerHTML = "&larr; Back";
 	backButton.onclick = () => parseCheatSheet();
 	sectionDiv.appendChild(backButton);

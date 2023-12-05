@@ -1,9 +1,11 @@
 const SAVE_DELAY = 2000;
 const RENDER_DELAY = 1000;
 const CONSOLE_DELAY = 3000;
+const LAST_SAVED_DELAY = 100;
+
 const TAB_SPACING = 4;
 
-const LIST_SYMBOLS = ["-", ">"];
+const LIST_SYMBOLS = ["-", ">", "*", "+"];
 
 //const console = document.getElementById("console-text");
 const title = document.getElementById("title");
@@ -11,6 +13,19 @@ const editor = document.getElementById("editor");
 const preview = document.getElementById("preview");
 const dialog = document.getElementById("guide-dialog");
 const dialogBackdrop = document.getElementById("dialog-backdrop");
+const lastSavedText = document.getElementById("last-saved");
+
+const linkModal = new bootstrap.Modal(document.querySelector("#linkModal"));
+const linkForm = document.getElementById("link-form");
+const linkLabel = document.getElementById("link-label");
+const linkHref = document.getElementById("link-href");
+const linkSubmit = document.getElementById("link-submit");
+
+const imageModal = new bootstrap.Modal(document.querySelector("#imageModal"));
+const imageForm = document.getElementById("image-form");
+const imageLabel = document.getElementById("image-label");
+const imageSrc = document.getElementById("image-src");
+const imageSubmit = document.getElementById("image-submit");
 
 let noteName;
 let isNew = true;
@@ -18,6 +33,8 @@ let titleTimer;
 let editorTimer;
 let consoleTimer;
 let notes;
+let lastSaved;
+let lastSavedTimer;
 
 let selectionStart;
 let selectionEnd;
@@ -26,7 +43,7 @@ let preventKeyup = false;
 
 window.onload = () => {
 	const urlParams = new URLSearchParams(window.location.search);
-	noteName = urlParams.get("name");
+	noteName = decodeURIComponent(urlParams.get("name"));
 
 	if (noteName == undefined) {
 		checkLocalStorage();
@@ -65,6 +82,8 @@ function createNewNote() {
 
 function saveNotes() {
 	localStorage.setItem("notes", JSON.stringify(notes));
+	lastSaved = new Date();
+	lastSavedText.innerHTML = "Last Saved: " + lastSaved.toLocaleTimeString();
 }
 
 function fetchNoteData() {
@@ -132,6 +151,7 @@ function insertText(text, updateCursorParam = true) {
 	editor.selectionStart = oldStart;
 	editor.selectionEnd = oldEnd;
 	if (!!updateCursorParam) moveCursor(text.length, updateCursorParam);
+	updateMarkdown();
 }
 
 function setText(text) {
@@ -393,6 +413,56 @@ function getCurrentLine() {
 	return text.slice(startPos, endPos);
 }
 
+function addLink() {
+	linkForm.reset();
+	linkSubmit.disabled = true;
+	linkModal.show();
+}
+
+function checkLinkForm(e) {
+	if (linkForm.checkValidity()) {
+		linkSubmit.disabled = false;
+		if (!!e && e.key === "Enter") submitLinkForm();
+	} else {
+		linkSubmit.disabled = true;
+	}
+}
+
+function submitLinkForm() {
+	linkModal.hide();
+	insertLink(linkHref.value, linkLabel.value);
+}
+
+function insertLink(href, label) {
+	label = label || href;
+	insertText("[" + label + "](" + href + ")");
+}
+
+function addImage() {
+	imageForm.reset();
+	imageSubmit.disabled = true;
+	imageModal.show();
+}
+
+function checkImageForm(e) {
+	if (imageForm.checkValidity()) {
+		imageSubmit.disabled = false;
+		if (!!e && e.key === "Enter") submitImageForm();
+	} else {
+		imageSubmit.disabled = true;
+	}
+}
+
+function submitImageForm() {
+	imageModal.hide();
+	insertImage(imageSrc.value, imageLabel.value);
+}
+
+function insertImage(href, label) {
+	label = label || "image";
+	insertText("![" + label + "](" + href + ")");
+}
+
 function applyStyle(style) {
 	let prefix = "";
 	let suffix = "";
@@ -418,7 +488,8 @@ function applyStyle(style) {
 			break;
 		case "h3":
 			prefix = "### ";
-			break;
+		default:
+			return;
 	}
 
 	let hasPrefix = editor.value.slice(selectionStart - prefix.length, selectionStart) == prefix;

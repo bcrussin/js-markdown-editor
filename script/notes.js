@@ -23,7 +23,6 @@ function deleteNote(title, id) {
 	}
 
 	delete notes[title];
-	console.log(notes);
 	localStorage.setItem("notes", JSON.stringify(notes));
 	removeNoteCard(id);
 }
@@ -35,7 +34,7 @@ function addNoteCard(title, note) {
 	card.className = "note-card";
 	card.id = "note-" + id;
 	card.addEventListener("click", () => {
-		window.location.href = "editor.html?name=" + title;
+		window.location.href = "editor.html?name=" + encodeURIComponent(title);
 	});
 
 	let cardContent = document.createElement("div");
