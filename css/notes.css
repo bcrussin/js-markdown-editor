@@ -106,3 +106,11 @@
 	/* Increases width to accommodate for the scale transform */
 	margin-right: calc(15% * -1);
 }
+
+.note-preview blockquote {
+	margin-right: calc(15% * -1);
+}
+
+.delete-all-modal code {
+	white-space: nowrap;
+}

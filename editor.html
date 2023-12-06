@@ -40,6 +40,10 @@
 				<span class="spacer"></span>
 				<button id="link" onclick="addLink()"><i class="bi bi-link-45deg"></i></button>
 				<button id="image" onclick="addImage()"><i class="bi bi-card-image"></i></button>
+				<span class="spacer"></span>
+				<button id="image" onclick="applyStyle('blockquote')">></button>
+				<button id="image" onclick="applyStyle('ul')"><i class="bi bi-list-ul"></i></button>
+				<button id="image" onclick="applyStyle('ol')"><i class="bi bi-list-ol"></i></button>
 				<span class="fill-space"></span>
 				<button id="guide" onclick="openGuideDialog()">?</button>
 			</div>
@@ -47,7 +51,7 @@
 		</div>
 		<div id="preview-container">
 			<div id="preview-menu" class="menu-bar">
-				<button id="exportPDF" onclick="exportMD()"><i class="bi bi-file-earmark-arrow-down"></i></button>
+				<button id="exportPDF" onclick="exportMD()"><i class="bi bi-download"></i></button>
 				<span class="fill-space"></span>
 				<span id="last-saved"></span>
 			</div>

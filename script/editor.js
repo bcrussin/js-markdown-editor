@@ -215,9 +215,14 @@ function moveCursorEnd(delta, accountForEnd = true) {
 	updateCursor();
 }
 
-function setCursor(pos) {
-	editor.selectionStart = pos;
-	editor.selectionEnd = pos;
+function setCursor(pos1, pos2) {
+	if (!!pos2) {
+		editor.selectionStart = pos1;
+		editor.selectionEnd = pos2;
+	} else {
+		editor.selectionStart = pos1;
+		editor.selectionEnd = pos1;
+	}
 	updateCursor();
 }
 
@@ -492,7 +497,8 @@ function submitLinkForm() {
 
 function insertLink(href, label) {
 	label = label || href;
-	insertText("[" + label + "](" + href + ")");
+	let text = "[" + label + "](" + href + ")";
+	insertText(text);
 }
 
 function addImage() {
@@ -545,6 +551,16 @@ function applyStyle(style) {
 			break;
 		case "h3":
 			prefix = "### ";
+			break;
+		case "blockquote":
+			prefix = "> ";
+			break;
+		case "ul":
+			prefix = "- ";
+			break;
+		case "ol":
+			prefix = "1. ";
+			break;
 		default:
 			return;
 	}
@@ -588,14 +604,25 @@ function applyStyle(style) {
 	} else {
 		if (selectionStart == selectionEnd) {
 			// ___ No text selected, add prefix and suffix ___
+			before = editor.value.slice(0, selectionStart);
+			after = editor.value.slice(selectionEnd, editor.value.length);
 
-			insertText(prefix + suffix);
-			moveCursor(-suffix.length);
+			setText(before + prefix + suffix + after);
+			moveCursor(prefix.length);
+			/*insertText(prefix + suffix);
+			moveCursor(-suffix.length);*/
 		} else {
 			// ___ Wrap selected text with prefix and suffix ___
 
-			insertText(prefix + editor.value.slice(selectionStart, selectionEnd) + suffix, false);
-			moveCursor(prefix.length, true);
+			before = editor.value.slice(0, selectionStart);
+			after = editor.value.slice(selectionEnd, editor.value.length);
+			middle = editor.value.slice(selectionStart, selectionEnd);
+
+			let oldStart = selectionStart;
+			let oldEnd = selectionEnd;
+			//insertText(prefix + editor.value.slice(selectionStart, selectionEnd) + suffix, false);
+			setText(before + prefix + middle + suffix + after);
+			setCursor(oldStart + prefix.length, oldEnd + prefix.length);
 		}
 	}
 
