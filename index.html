@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html lang="en">
 <html>
 
 <head>
@@ -33,7 +33,7 @@
 			<form>
 				<input type="search" id="search-notes" class="form-control" placeholder="Search notes" onkeyup="searchNotes(event.target.value)" />
 			</form>
-			<a href="editor.html"><button id="new-note" class="btn btn-sm btn-primary">New Note</button></a>
+			<button id="new-note" class="btn btn-sm btn-primary" onclick="createNote()">New Note</button>
 		</div>
 		<div id="notes-container">
 			<p id="notes-placeholder">No notes found - click "New Note" to create one</p>

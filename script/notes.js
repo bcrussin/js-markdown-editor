@@ -36,6 +36,10 @@ window.onload = () => {
 	addNoteCards();
 };
 
+function createNote() {
+	window.location.href = "/editor.html";
+}
+
 function deleteNote(title, id) {
 	delete notes[title];
 	localStorage.setItem("notes", JSON.stringify(notes));
