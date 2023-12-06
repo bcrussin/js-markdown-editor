@@ -10,8 +10,8 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/md-to-pdf@5.2.4/dist/index.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/platform/1.3.6/platform.min.js"></script>
-	<link rel="stylesheet" href="css/styles.css" />
-	<link rel="stylesheet" href="css/editor.css" />
+	<link rel="stylesheet" href="css/styles.css">
+	<link rel="stylesheet" href="css/editor.css">
 </head>
 
 <body>
@@ -19,8 +19,7 @@
 		<div id="nav-left" class="nav-link">
 			<a href="index.html">All Notes</a>
 		</div>
-		<!--<h1>Markdown Editor</h1>-->
-		<input id="title" placeholder="Untitled Note" type="text" onchange="updateTitle()" />
+		<input id="title" placeholder="Untitled Note" type="text" onchange="updateTitle()">
 		<div id="nav-right" class="nav-link">
 			<a href="guidePage.html">Guide</a>
 			<a href="stats.html">Statistics</a>
@@ -41,9 +40,9 @@
 				<button id="link" onclick="addLink()"><i class="bi bi-link-45deg"></i></button>
 				<button id="image" onclick="addImage()"><i class="bi bi-card-image"></i></button>
 				<span class="spacer"></span>
-				<button id="image" onclick="applyStyle('blockquote')">></button>
-				<button id="image" onclick="applyStyle('ul')"><i class="bi bi-list-ul"></i></button>
-				<button id="image" onclick="applyStyle('ol')"><i class="bi bi-list-ol"></i></button>
+				<button id="blockquote" onclick="applyStyle('blockquote')">></button>
+				<button id="ul" onclick="applyStyle('ul')"><i class="bi bi-list-ul"></i></button>
+				<button id="ol" onclick="applyStyle('ol')"><i class="bi bi-list-ol"></i></button>
 				<span class="fill-space"></span>
 				<button id="guide" onclick="openGuideDialog()">?</button>
 			</div>
@@ -81,11 +80,11 @@
 					<form id="link-form">
 						<div>
 							<label for="link-href">Link target:</label>
-							<input type="text" id="link-href" placeholder="www.google.com" onkeyup="checkLinkForm(event)" required />
+							<input type="text" id="link-href" placeholder="www.google.com" onkeyup="checkLinkForm(event)" required>
 						</div>
 						<div>
 							<label for="link-label">Label (optional):</label>
-							<input type="text" id="link-label" placeholder="Google" onkeyup="checkLinkForm(event)" />
+							<input type="text" id="link-label" placeholder="Google" onkeyup="checkLinkForm(event)">
 						</div>
 					</form>
 				</div>
@@ -108,11 +107,11 @@
 					<form id="image-form">
 						<div>
 							<label for="image-src">Image link:</label>
-							<input type="text" id="image-src" placeholder="https://picsum.photos/200" onkeyup="checkImageForm(event)" required />
+							<input type="text" id="image-src" placeholder="https://picsum.photos/200" onkeyup="checkImageForm(event)" required>
 						</div>
 						<div>
 							<label for="link-label">Alt Text (optional):</label>
-							<input type="text" id="image-label" placeholder="Beautiful sunset" onkeyup="checkImageForm(event)" />
+							<input type="text" id="image-label" placeholder="Beautiful sunset" onkeyup="checkImageForm(event)">
 						</div>
 					</form>
 				</div>
