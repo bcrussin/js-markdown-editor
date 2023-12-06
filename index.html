@@ -43,9 +43,14 @@
 		</div>
 	</main>
 
-	<div class="alert alert-danger" id="note-deleted" role="alert">
+	<div class="alert alert-danger note-alert" id="note-deleted" role="alert">
 		<div>Note deleted</div>
-		<button type="button" class="btn-close" id="note-deleted-close" aria-label="Close" onclick="closeNoteDeleted()"></button>
+		<button type="button" class="btn-close" id="note-deleted-close" aria-label="Close" onclick="closeAlert('note-deleted')"></button>
+	</div>
+
+	<div class="alert alert-primary note-alert" id="note-uploaded" role="alert">
+		<div>Note(s) uploaded</div>
+		<button type="button" class="btn-close alert-close" id="note-uploaded-close" aria-label="Close" onclick="closeAlert('note-uploaded')"></button>
 	</div>
 
 	<div class="modal fade delete-modal" id="deleteModal" data-bs-theme="dark">

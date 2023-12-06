@@ -115,7 +115,7 @@
 	white-space: nowrap;
 }
 
-#note-deleted {
+.note-alert {
 	opacity: 0;
 	visibility: hidden;
 	position: fixed;
@@ -126,12 +126,12 @@
 	transition: all 0.2s;
 }
 
-#note-deleted.visible {
+.note-alert.visible {
 	opacity: 1;
 	visibility: visible;
 }
 
-#note-deleted-close {
+.alert-close {
 	position: absolute;
 	right: 8px;
 	top: 50%;

@@ -1,8 +1,9 @@
-const NOTE_DELETED_DELAY = 5000;
+const ALERT_CLOSE_DELAY = 5000;
 
 const search = document.getElementById("search-notes");
 const notesContainer = document.getElementById("note-cards-container");
 const noteDeleted = document.getElementById("note-deleted");
+const noteUploaded = document.getElementById("note-uploaded");
 
 const deleteModal = new bootstrap.Modal(document.querySelector("#deleteModal"));
 const deleteName = document.getElementById("delete-name");
@@ -27,7 +28,7 @@ let notes;
 let numCards = 0;
 
 let noteToDelete;
-let noteDeletedTimer;
+let alertTimers = {};
 
 window.onload = () => {
 	search.value = "";
@@ -50,14 +51,25 @@ function deleteNote(title, id) {
 	localStorage.setItem("notes", JSON.stringify(notes));
 	removeNoteCard(id);
 
+	showAlert("note-deleted");
+	/*
 	noteDeleted.classList.add("visible");
 
 	clearTimeout(noteDeletedTimer);
-	noteDeletedTimer = setTimeout(() => closeNoteDeleted(), NOTE_DELETED_DELAY);
+	noteDeletedTimer = setTimeout(() => closeNoteDeleted(), NOTE_DELETED_DELAY);*/
 }
 
-function closeNoteDeleted() {
-	noteDeleted.classList.remove("visible");
+function showAlert(id) {
+	let alert = document.getElementById(id);
+	alert.classList.add("visible");
+
+	clearTimeout(alertTimers[id]);
+	alertTimers[id] = setTimeout(() => closeAlert(id), ALERT_CLOSE_DELAY);
+}
+
+function closeAlert(id) {
+	let alert = document.getElementById(id);
+	alert.classList.remove("visible");
 }
 
 function searchNotes(query) {
@@ -275,6 +287,7 @@ async function checkOverwriteDialogQueue() {
 	} else {
 		saveNotes();
 		addNoteCards();
+		showAlert("note-uploaded");
 	}
 }
 
