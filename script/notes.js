@@ -168,7 +168,7 @@ function exportNotesToJson() {
 
 	let date = new Date();
 	let year = date.getFullYear();
-	let month = date.getMonth();
+	let month = date.getMonth() + 1;
 	month = "0".repeat(2 - month.toString().length) + month;
 	let day = date.getDate();
 	day = "0".repeat(2 - day.toString().length) + day;
