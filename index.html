@@ -27,11 +27,11 @@
 
 	<main>
 		<div id="controls-container">
-			<button class="btn btn-sm btn-danger" id="delete-all" onclick="openDeleteAllDialog()"><i class="bi bi-trash h5"></i></button>
-			<button class="btn btn-sm btn-light" onclick="openExportDialog()"><i class="bi bi-download h5"></i></button>
-			<button class="btn btn-sm btn-light" onclick="openImportDialog()"><i class="bi bi-journal-arrow-up h5"></i></button>
+			<button class="btn btn-sm btn-danger" id="delete-all" aria-label="delete all notes" onclick="openDeleteAllDialog()"><i class="bi bi-trash h5"></i></button>
+			<button class="btn btn-sm btn-light" aria-label="export notes" onclick="openExportDialog()"><i class="bi bi-download h5"></i></button>
+			<button class="btn btn-sm btn-light" aria-label="import notes" onclick="openImportDialog()"><i class="bi bi-journal-arrow-up h5"></i></button>
 			<form>
-				<input type="search" id="search-notes" class="form-control" placeholder="Search notes" onkeyup="searchNotes(event.target.value)">
+				<input type="search" id="search-notes" class="form-control" placeholder="Search notes" aria-label="search notes" onkeyup="searchNotes(event.target.value)">
 			</form>
 			<button id="new-note" class="btn btn-sm btn-primary" onclick="createNote()">New Note</button>
 		</div>
@@ -42,6 +42,11 @@
 			</div>
 		</div>
 	</main>
+
+	<div class="alert alert-danger" id="note-deleted" role="alert">
+		<div>Note deleted</div>
+		<button type="button" class="btn-close" id="note-deleted-close" aria-label="Close" onclick="closeNoteDeleted()"></button>
+	</div>
 
 	<div class="modal fade delete-modal" id="deleteModal" data-bs-theme="dark">
 		<div class="modal-dialog modal-dialog-centered">
@@ -79,7 +84,7 @@
 					<p>If you'd like, you can go back and export them to JSON so that they may be restored later.</p>
 
 					<p>This will remove all notes permanently. To continue, type <code>"I understand"</code> in the box below.</p>
-					<input type="text" class="form-control" id="delete-all-confirm" placeholder="I understand" onkeyup="checkCanDeleteAll()">
+					<input type="text" aria-label="deletion confirmation" class="form-control" id="delete-all-confirm" placeholder="I understand" onkeyup="checkCanDeleteAll()">
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>

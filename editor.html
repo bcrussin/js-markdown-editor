@@ -8,7 +8,6 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/md-to-pdf@5.2.4/dist/index.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/platform/1.3.6/platform.min.js"></script>
 	<link rel="stylesheet" href="css/styles.css">
 	<link rel="stylesheet" href="css/editor.css">
@@ -19,7 +18,7 @@
 		<div id="nav-left" class="nav-link">
 			<a href="index.html">All Notes</a>
 		</div>
-		<input id="title" placeholder="Untitled Note" type="text" onchange="updateTitle()">
+		<input aria-label="note title" id="title" placeholder="Untitled Note" type="text" onchange="updateTitle()">
 		<div id="nav-right" class="nav-link">
 			<a href="guidePage.html">Guide</a>
 			<a href="stats.html">Statistics</a>
@@ -29,28 +28,28 @@
 	<main>
 		<div id="editor-container">
 			<div id="editor-menu" class="menu-bar">
-				<button id="bold" onclick="applyStyle('bold')">B</button>
-				<button id="italic" onclick="applyStyle('italic')">I</button>
-				<button id="code" onclick="applyStyle('code')">M</button>
+				<button id="bold" aria-label="insert bold text" onclick="applyStyle('bold')">B</button>
+				<button id="italic" aria-label="insert italic text" onclick="applyStyle('italic')">I</button>
+				<button id="code" aria-label="insert monospace text" onclick="applyStyle('code')">M</button>
 				<span class="spacer"></span>
-				<button id="h1" onclick="applyStyle('h1')">H1</button>
-				<button id="h2" onclick="applyStyle('h2')">H2</button>
-				<button id="h3" onclick="applyStyle('h3')">H3</button>
+				<button id="h1" aria-label="insert level 1 header" onclick="applyStyle('h1')">H1</button>
+				<button id="h2" aria-label="insert level 2 header" onclick="applyStyle('h2')">H2</button>
+				<button id="h3" aria-label="insert level 3 header" onclick="applyStyle('h3')">H3</button>
 				<span class="spacer"></span>
-				<button id="link" onclick="addLink()"><i class="bi bi-link-45deg"></i></button>
-				<button id="image" onclick="addImage()"><i class="bi bi-card-image"></i></button>
+				<button id="link" aria-label="insert link" onclick="addLink()"><i class="bi bi-link-45deg"></i></button>
+				<button id="image" aria-label="insert image" onclick="addImage()"><i class="bi bi-card-image"></i></button>
 				<span class="spacer"></span>
-				<button id="blockquote" onclick="applyStyle('blockquote')">></button>
-				<button id="ul" onclick="applyStyle('ul')"><i class="bi bi-list-ul"></i></button>
-				<button id="ol" onclick="applyStyle('ol')"><i class="bi bi-list-ol"></i></button>
+				<button id="blockquote" aria-label="insert blockquote" onclick="applyStyle('blockquote')">></button>
+				<button id="ul" aria-label="insert unordered list" onclick="applyStyle('ul')"><i class="bi bi-list-ul"></i></button>
+				<button id="ol" aria-label="insert ordered header" onclick="applyStyle('ol')"><i class="bi bi-list-ol"></i></button>
 				<span class="fill-space"></span>
-				<button id="guide" onclick="openGuideDialog()">?</button>
+				<button id="guide" aria-label="open markdown guide" onclick="openGuideDialog()">?</button>
 			</div>
-			<textarea id="editor" onkeyup="keyupEditor(event)" onkeydown="keydownEditor(event)" onclick="updateCursor();" placeholder="Markdown goes here..."> </textarea>
+			<textarea aria-label="editor content" id="editor" onkeyup="keyupEditor(event)" onkeydown="keydownEditor(event)" onclick="updateCursor();" placeholder="Markdown goes here..."> </textarea>
 		</div>
 		<div id="preview-container">
 			<div id="preview-menu" class="menu-bar">
-				<button id="exportPDF" onclick="exportMD()"><i class="bi bi-download"></i></button>
+				<button id="exportMD" aria-label="export " onclick="exportMD()"><i class="bi bi-download"></i></button>
 				<span class="fill-space"></span>
 				<span id="last-saved"></span>
 			</div>
@@ -110,7 +109,7 @@
 							<input type="text" id="image-src" placeholder="https://picsum.photos/200" onkeyup="checkImageForm(event)" required>
 						</div>
 						<div>
-							<label for="link-label">Alt Text (optional):</label>
+							<label for="image-label">Alt Text (optional):</label>
 							<input type="text" id="image-label" placeholder="Beautiful sunset" onkeyup="checkImageForm(event)">
 						</div>
 					</form>

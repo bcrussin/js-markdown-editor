@@ -114,3 +114,26 @@
 .delete-all-modal code {
 	white-space: nowrap;
 }
+
+#note-deleted {
+	opacity: 0;
+	visibility: hidden;
+	position: fixed;
+	bottom: 8px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 300px;
+	transition: all 0.2s;
+}
+
+#note-deleted.visible {
+	opacity: 1;
+	visibility: visible;
+}
+
+#note-deleted-close {
+	position: absolute;
+	right: 8px;
+	top: 50%;
+	transform: translateY(-50%);
+}

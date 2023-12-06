@@ -66,7 +66,7 @@ function parseCheatSheet(data) {
 					let titleLink = document.createElement("a");
 					titleLink.innerHTML = item["element"];
 					titleLink.className = "element-title";
-					titleLink.onclick = () => parseBasicSyntax(titleLink.innerHTML);
+					element.onclick = () => parseBasicSyntax(titleLink.innerHTML);
 					title.appendChild(titleLink);
 				} else {
 					title.innerHTML = item["element"];
@@ -148,15 +148,12 @@ async function parseBasicSyntax(name) {
 
 	for (let item of data) {
 		let sectionContent = document.createElement("div");
-		sectionContent.className = "section-content";
 		sectionContent.style.maxWidth = "600px";
 
 		let header = document.createElement("h2");
 		header.innerHTML = item["name"];
 		sectionDiv.appendChild(header);
 		sectionDiv.appendChild(sectionContent);
-
-		let title = document.createElement("h4");
 
 		let description = document.createElement("p");
 		let descriptionText = document.createTextNode(item["description"]);
@@ -170,10 +167,13 @@ async function parseBasicSyntax(name) {
 			let exampleContainer = document.createElement("div");
 			exampleContainer.className = "example";
 
+			let codeContainer = document.createElement("div");
+			codeContainer.className = "example-syntax";
 			let exampleCode = document.createElement("code");
 			let exampleText = document.createTextNode(example["markdown"]);
 			exampleCode.appendChild(exampleText);
-			exampleContainer.appendChild(exampleCode);
+			codeContainer.appendChild(exampleCode);
+			exampleContainer.appendChild(codeContainer);
 
 			let exampleDetails = document.createElement("details");
 			let summary = document.createElement("summary");
@@ -191,7 +191,6 @@ async function parseBasicSyntax(name) {
 		let examplesContainer = document.createElement("div");
 		// additional_examples
 
-		sectionContent.appendChild(title);
 		sectionContent.appendChild(description);
 		sectionContent.appendChild(exampleHeader);
 		sectionContent.appendChild(examplesContent);

@@ -50,3 +50,9 @@ main {
 .stat-value span {
     font-size: 32pt;
 }
+
+.value-subtext {
+    font-size: 16pt !important;
+    opacity: 0.6;
+    margin-left: 4px;
+}

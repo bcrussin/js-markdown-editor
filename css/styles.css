@@ -79,8 +79,9 @@ button:disabled {
 	pointer-events: all !important;
 }
 
-#search-notes {
+input[type=search] {
 	height: 24px;
+
 }
 
 .note-preview blockquote {

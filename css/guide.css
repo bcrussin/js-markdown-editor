@@ -12,6 +12,8 @@ body {
 #search {
     padding: 16px 8px;
     width: min(100%, 300px);
+    border-radius: 8px;
+    border: none;
 }
 
 #guide-content {
@@ -35,12 +37,17 @@ body {
 
 .element {
     margin: 8px;
-    padding: 8px 16px;
+    padding: 12px 16px;
     background-color: #181818;
     border-radius: 8px;
     display: flex;
     flex-direction: column;
     justify-content: stretch;
+    cursor: pointer;
+}
+
+.element:hover a {
+    text-decoration: underline;
 }
 
 .element-title {
@@ -77,6 +84,10 @@ body {
     padding: 4px 8px;
 }
 
+.example-syntax {
+    margin-left: 4px;
+}
+
 .example details {
     margin-top: 8px;
     user-select: none;
@@ -102,10 +113,6 @@ body {
 a {
     text-decoration: none;
     cursor: pointer;
-}
-
-a:not(.back-button):hover {
-    text-decoration: underline;
 }
 
 code {

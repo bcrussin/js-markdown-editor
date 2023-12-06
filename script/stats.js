@@ -1,7 +1,8 @@
-const totalNotesText = document.getElementById("total-notes-value");
-const totalCharsText = document.getElementById("total-chars-value");
+const totalNotesValue = document.getElementById("total-notes-value");
+const totalCharsValue = document.getElementById("total-chars-value");
 const longestNoteLink = document.getElementById("longest-note-link");
-const longestNoteText = document.getElementById("longest-note-value");
+const longestNoteValue = document.getElementById("longest-note-value");
+const totalLinesValue = document.getElementById("total-lines-value");
 
 let totalNotes = 0;
 let totalChars = 0;
@@ -24,13 +25,14 @@ function checkLocalStorage() {
 
 function getStats() {
 	totalNotes = Object.keys(notes).length;
-	totalNotesText.innerHTML = totalNotes;
+	totalNotesValue.innerHTML = totalNotes;
 
-	let maxChars = 0;
-	totalChars = Object.values(notes).map((note) => {
-		if (note["markdown"].length > maxChars) maxChars = note["markdown"].length;
-	});
-	totalCharsText.innerHTML = maxChars;
+	let totalChars = 0;
+	totalChars = Object.values(notes).reduce((total, { markdown }) => {
+		total += markdown.length;
+		return total;
+	}, 0);
+	totalCharsValue.innerHTML = totalChars;
 
 	let maxNoteName = "N/A";
 	let maxNoteLength = 0;
@@ -40,7 +42,14 @@ function getStats() {
 			maxNoteName = key;
 		}
 	});
-	longestNoteText.innerHTML = maxNoteLength;
+	longestNoteValue.innerHTML = maxNoteLength;
 	longestNoteLink.innerHTML = maxNoteName;
 	longestNoteLink.href = "editor.html?name=" + encodeURIComponent(maxNoteName);
+
+	let totalLines = 0;
+	totalLines = Object.values(notes).reduce((total, { markdown }) => {
+		total += markdown.split("\n").length;
+		return total;
+	}, 0);
+	totalLinesValue.innerHTML = totalLines;
 }

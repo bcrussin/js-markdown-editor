@@ -1,8 +1,8 @@
-let notes;
-let numCards = 0;
+const NOTE_DELETED_DELAY = 5000;
 
 const search = document.getElementById("search-notes");
 const notesContainer = document.getElementById("note-cards-container");
+const noteDeleted = document.getElementById("note-deleted");
 
 const deleteModal = new bootstrap.Modal(document.querySelector("#deleteModal"));
 const deleteName = document.getElementById("delete-name");
@@ -19,10 +19,15 @@ const importFiles = document.getElementById("importFiles");
 const overwriteModal = new bootstrap.Modal(document.querySelector("#overwriteModal"));
 const overwriteName = document.getElementById("overwrite-name");
 const overwriteSubmit = document.getElementById("overwrite-submit");
+
 let overwriteQueue = [];
 let nameToOverwrite;
 
+let notes;
+let numCards = 0;
+
 let noteToDelete;
+let noteDeletedTimer;
 
 window.onload = () => {
 	search.value = "";
@@ -44,6 +49,15 @@ function deleteNote(title, id) {
 	delete notes[title];
 	localStorage.setItem("notes", JSON.stringify(notes));
 	removeNoteCard(id);
+
+	noteDeleted.classList.add("visible");
+
+	clearTimeout(noteDeletedTimer);
+	noteDeletedTimer = setTimeout(() => closeNoteDeleted(), NOTE_DELETED_DELAY);
+}
+
+function closeNoteDeleted() {
+	noteDeleted.classList.remove("visible");
 }
 
 function searchNotes(query) {
