@@ -10,11 +10,6 @@ body {
 	height: 100vh;
 }
 
-.modal-content {
-	background-color: #212121 !important;
-	color: #dddddd !important;
-}
-
 nav {
 	flex: 0 0;
 	display: flex;
@@ -22,19 +17,6 @@ nav {
 	justify-content: center;
 	align-items: center;
 	margin-bottom: 16px;
-}
-
-.bg-dark {
-	background-color: #212121 !important;
-}
-
-#nav-left,
-#nav-right {
-	flex: 1 0;
-}
-
-#nav-left {
-	text-align: right;
 }
 
 nav input {
@@ -51,6 +33,19 @@ nav input {
 	outline: none;
 }
 
+nav h1 {
+	margin: 4px 8px;
+}
+
+#nav-left,
+#nav-right {
+	flex: 1 0;
+}
+
+#nav-left {
+	text-align: right;
+}
+
 .nav-link {
 	margin: 4px 8px;
 }
@@ -61,6 +56,15 @@ nav input {
 
 .nav-div {
 	color: #4493d3;
+}
+
+.modal-content {
+	background-color: #212121 !important;
+	color: #dddddd !important;
+}
+
+.bg-dark {
+	background-color: #212121 !important;
 }
 
 a,

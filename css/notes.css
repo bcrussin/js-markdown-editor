@@ -1,13 +1,14 @@
 #controls-container {
 	display: flex;
+	flex-wrap: wrap;
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
-	height: 32px;
 }
 
 #controls-container>* {
-	margin: 0 4px;
+	margin: 4px;
+	height: 32px;
 }
 
 #controls-container * {

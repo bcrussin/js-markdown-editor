@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Markdown Editor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/about.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-dark bg-dark border-bottom border-body navbar-expand-lg" data-bs-theme="dark">
+        <div id="nav-left" class="nav-link">
+            <a href="index.html" class="selected">All Notes</a>
+            <a href="guidePage.html">Guide</a>
+        </div>
+        <h1>Markdown Editor</h1>
+        <div id="nav-right" class="nav-link">
+            <a href="stats.html">Statistics</a>
+            <a href="about.html">About</a>
+        </div>
+    </nav>
+
+    <main>
+        <h2>About This Project</h2>
+        <div id="about-container">
+            <p>This project was created by <a href="https://github.com/bcrussin" target="_blank">Barrett Crusse</a></p>
+            <p>Libraries used:</p>
+            <ul>
+                <li><a href="https://showdownjs.com/" target="_blank">Showdown.js</a></li>
+                <ul>
+                    <li>Allows parsing markdown code into HTML elements</li>
+                </ul>
+                <li><a href="https://getbootstrap.com/" target="_blank">Bootstrap</a></li>
+                <ul>
+                    <li>Provides styling and some pre-built components</li>
+                </ul>
+                <li><a href="https://jquery.com/" target="_blank">JQuery</a></li>
+                <ul>
+                    <li>Enables the creation of listeners for modal opening and closing</li>
+                </ul>
+                <li><a href="https://github.com/bestiejs/platform.js">Platform.js</a></li>
+                <ul>
+                    <li>Used to identify the user's platform in order to use either `ctrl` or `cmd` keypresses for shortcuts</li>
+                </ul>
+            </ul>
+            <p>APIs used:</p>
+            <ul>
+                <li><a href="https://www.markdownguide.org/" target="_blank">The Markdown Guide</a></li>
+                <ul>
+                    <li>Serves a list of markdown elements, as well as proper syntax and examples</li>
+                </ul>
+            </ul>
+        </div>
+    </main>
+
+</body>
+
+</html>

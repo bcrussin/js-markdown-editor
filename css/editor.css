@@ -216,6 +216,7 @@ textarea {
 	margin-top: 16px;
 }
 
+/* Position editor panes vertically on portrait screens */
 @media only screen and (orientation:portrait) {
 	main {
 		flex-direction: column;
