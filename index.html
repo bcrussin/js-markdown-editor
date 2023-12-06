@@ -45,16 +45,19 @@
 		</div>
 	</main>
 
+	<!-- Notifies the user that a note was deleted successfully -->
 	<div class="alert alert-danger note-alert" id="note-deleted" role="alert">
 		<div>Note deleted</div>
-		<button type="button" class="btn-close" id="note-deleted-close" aria-label="Close" onclick="closeAlert('note-deleted')"></button>
+		<button type="button" class="btn-close alert-close" id="note-deleted-close" aria-label="Close" onclick="closeAlert('note-deleted')"></button>
 	</div>
 
+	<!-- Notifies the user that note(s) were uploaded successfully -->
 	<div class="alert alert-primary note-alert" id="note-uploaded" role="alert">
 		<div>Note(s) uploaded</div>
 		<button type="button" class="btn-close alert-close" id="note-uploaded-close" aria-label="Close" onclick="closeAlert('note-uploaded')"></button>
 	</div>
 
+	<!-- Confirmation dialog for deleting a note -->
 	<div class="modal fade delete-modal" id="deleteModal" data-bs-theme="dark">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
@@ -78,7 +81,7 @@
 		</div>
 	</div>
 
-
+	<!-- Confirmation dialog for deleting all notes (requires typing a phrase to confirm) -->
 	<div class="modal fade delete-all-modal" id="deleteAllModal" data-bs-theme="dark">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
@@ -101,6 +104,7 @@
 		</div>
 	</div>
 
+	<!-- Provides multiple ways to export all notes -->
 	<div class="modal fade export-modal" id="exportModal" data-bs-theme="dark">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
@@ -119,6 +123,7 @@
 		</div>
 	</div>
 
+	<!-- Allows uploading .md or .json files containing note data -->
 	<div class="modal fade import-modal" id="importModal" data-bs-theme="dark">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
@@ -140,6 +145,7 @@
 		</div>
 	</div>
 
+	<!-- Prevents notes from being overwritten unless permitted by the user -->
 	<div class="modal fade overwrite-modal" id="overwriteModal" data-bs-theme="dark">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
