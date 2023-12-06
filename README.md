@@ -1,1 +1,5 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/zaAkQ-UZ)
+# Markdown Editor
+
+This is a simple browser-based markdown editor and notes app that was created in two weeks for a school project.
+
+![Markdown Editor](https://github.com/bcrussin/js-markdown-editor/assets/18034747/9bfc583c-0da9-426e-8a27-82f361be3ee4)
